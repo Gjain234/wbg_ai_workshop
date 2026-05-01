@@ -1,6 +1,27 @@
 {
   "version": 1,
+  "locale": "C.UTF-8",
   "metadata": {
-    "appmode": "static"
+    "appmode": "python-api",
+    "entrypoint": "app"
+  },
+  "python": {
+    "version": "3.14.4",
+    "package_manager": {
+      "name": "pip",
+      "version": "26.0.1",
+      "package_file": "requirements.txt"
+    }
+  },
+  "files": {
+    "requirements.txt": {
+      "checksum": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    "app.py": {
+      "checksum": "298855089142d91050eaf507513ee780"
+    },
+    "templates/index.html": {
+      "checksum": "faa0c60ba4e9627241b02f12ad2f0ff0"
+    }
   }
 }
