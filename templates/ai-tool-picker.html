@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Which AI tool should I use?</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #F4F3EF;
+  --surface: #FFFFFF;
+  --border: #E0DED8;
+  --border-strong: #C8C5BC;
+  --text-primary: #1C1B18;
+  --text-secondary: #6B6A64;
+  --text-tertiary: #A8A69F;
+  --font: 'Sora', system-ui, sans-serif;
+  --mono: 'DM Mono', monospace;
+
+  /* Tool colours */
+  --gpt-bg: #E8F5E9; --gpt-border: #66BB6A; --gpt-text: #1B5E20; --gpt-mid: #2E7D32;
+  --claude-bg: #FFF3E0; --claude-border: #FFA726; --claude-text: #4E2600; --claude-mid: #E65100;
+  --mai-bg: #E3F2FD; --mai-border: #42A5F5; --mai-text: #0D2B5E; --mai-mid: #1565C0;
+  --gemini-bg: #FCE4EC; --gemini-border: #EC407A; --gemini-text: #4A0020; --gemini-mid: #880E4F;
+  --notebooklm-bg: #EDE7F6; --notebooklm-border: #7E57C2; --notebooklm-text: #1A0047; --notebooklm-mid: #4527A0;
+
+  --r: 12px;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+  padding: 3rem 1.5rem 5rem;
+}
+
+.page { max-width: 1120px; margin: 0 auto; }
+
+/* ── HEADER ── */
+.header { margin-bottom: 3rem; }
+.eyebrow {
+  font-size: 11px; font-weight: 600; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 8px;
+}
+h1 { font-size: 30px; font-weight: 600; color: var(--text-primary); line-height: 1.2; margin-bottom: 8px; }
+.subtitle { font-size: 15px; color: var(--text-secondary); max-width: 520px; line-height: 1.6; }
+
+/* ── TABS ── */
+.tabs { display: flex; gap: 4px; background: var(--border); border-radius: 10px; padding: 4px; width: fit-content; margin-bottom: 2rem; }
+.tab {
+  font-family: var(--font); font-size: 13px; font-weight: 500;
+  padding: 8px 20px; border-radius: 7px; border: none;
+  background: transparent; color: var(--text-secondary); cursor: pointer; transition: all 0.18s;
+}
+.tab.active { background: white; color: var(--text-primary); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* ── TOOL BUBBLES ── */
+.tool-row {
+  display: flex; gap: 14px; justify-content: center;
+  flex-wrap: wrap; margin: 2.5rem 0 0;
+}
+
+.tool-bubble {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  padding: 16px 20px; border-radius: 16px; border: 2px solid transparent;
+  min-width: 130px; text-align: center; transition: all 0.25s; opacity: 0.35;
+  cursor: default;
+}
+.tool-bubble.lit { opacity: 1; transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+.tool-bubble.dim { opacity: 0.18; }
+
+.tool-bubble.gpt     { background: var(--gpt-bg);     border-color: var(--gpt-border); }
+.tool-bubble.claude  { background: var(--claude-bg);  border-color: var(--claude-border); }
+.tool-bubble.mai     { background: var(--mai-bg);     border-color: var(--mai-border); }
+.tool-bubble.gemini  { background: var(--gemini-bg);  border-color: var(--gemini-border); }
+.tool-bubble.notebooklm { background: var(--notebooklm-bg); border-color: var(--notebooklm-border); }
+
+.tool-icon { font-size: 26px; line-height: 1; }
+.tool-name { font-size: 12px; font-weight: 600; }
+.tool-name.gpt        { color: var(--gpt-text); }
+.tool-name.claude     { color: var(--claude-text); }
+.tool-name.mai        { color: var(--mai-text); }
+.tool-name.gemini     { color: var(--gemini-text); }
+.tool-name.notebooklm { color: var(--notebooklm-text); }
+.tool-tag { font-size: 10px; color: var(--text-secondary); font-family: var(--mono); }
+
+/* ── SVG CHART ── */
+.chart-wrap { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 2rem; overflow-x: auto; }
+
+/* ── QUIZ ── */
+.quiz-wrap { max-width: 600px; margin: 0 auto; }
+
+.quiz-progress { display: flex; gap: 6px; margin-bottom: 2rem; }
+.quiz-pip { height: 4px; flex: 1; border-radius: 2px; background: var(--border); transition: background 0.3s; }
+.quiz-pip.done { background: var(--text-primary); }
+.quiz-pip.active { background: var(--text-tertiary); }
+
+.quiz-card {
+  background: white; border: 1px solid var(--border); border-radius: 16px;
+  padding: 2rem 2rem 1.5rem; margin-bottom: 1rem;
+}
+.quiz-q-num { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 8px; }
+.quiz-q-text { font-size: 18px; font-weight: 600; color: var(--text-primary); line-height: 1.4; margin-bottom: 1.5rem; }
+.quiz-options { display: flex; flex-direction: column; gap: 10px; }
+.quiz-opt {
+  font-family: var(--font); font-size: 14px; font-weight: 500;
+  padding: 14px 18px; border-radius: 10px; border: 1.5px solid var(--border);
+  background: var(--bg); color: var(--text-primary); cursor: pointer; text-align: left;
+  transition: all 0.15s;
+}
+.quiz-opt:hover { border-color: var(--border-strong); background: white; transform: translateX(3px); }
+
+.quiz-back {
+  font-family: var(--font); font-size: 13px; color: var(--text-tertiary);
+  background: none; border: none; cursor: pointer; padding: 4px 0;
+  display: flex; align-items: center; gap: 4px; margin-top: 0.5rem; transition: color 0.15s;
+}
+.quiz-back:hover { color: var(--text-secondary); }
+
+/* Result card */
+.result-card {
+  background: white; border: 1px solid var(--border); border-radius: 16px;
+  padding: 2rem; text-align: center; display: none;
+}
+.result-card.show { display: block; }
+.result-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-tertiary); margin-bottom: 1rem; }
+.result-tool-name { font-size: 28px; font-weight: 600; margin-bottom: 8px; }
+.result-reason { font-size: 14px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1.5rem; max-width: 420px; margin-left: auto; margin-right: auto; }
+.result-also { font-size: 12px; color: var(--text-tertiary); font-family: var(--mono); }
+
+.retry-btn {
+  font-family: var(--font); font-size: 13px; font-weight: 500;
+  margin-top: 1.5rem; padding: 10px 22px; border-radius: 8px;
+  border: 1.5px solid var(--border-strong); background: white;
+  color: var(--text-secondary); cursor: pointer; transition: all 0.15s;
+}
+.retry-btn:hover { background: var(--bg); color: var(--text-primary); }
+
+/* Result tool bubble large */
+.result-bubble {
+  display: inline-flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 20px 32px; border-radius: 20px; border: 2px solid; margin-bottom: 1.25rem;
+}
+.result-bubble .r-icon { font-size: 40px; }
+.result-bubble .r-name { font-size: 20px; font-weight: 600; }
+
+.result-bubble.gpt     { background: var(--gpt-bg);     border-color: var(--gpt-border); }
+.result-bubble.claude  { background: var(--claude-bg);  border-color: var(--claude-border); }
+.result-bubble.mai     { background: var(--mai-bg);     border-color: var(--mai-border); }
+.result-bubble.gemini  { background: var(--gemini-bg);  border-color: var(--gemini-border); }
+.result-bubble.notebooklm { background: var(--notebooklm-bg); border-color: var(--notebooklm-border); }
+
+.result-bubble.gpt .r-name        { color: var(--gpt-text); }
+.result-bubble.claude .r-name     { color: var(--claude-text); }
+.result-bubble.mai .r-name        { color: var(--mai-text); }
+.result-bubble.gemini .r-name     { color: var(--gemini-text); }
+.result-bubble.notebooklm .r-name { color: var(--notebooklm-text); }
+
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <p class="eyebrow">AI tools reference</p>
+    <h1>Which AI tool should I use?</h1>
+    <p class="subtitle">Browse the decision map or take the quick quiz to get a recommendation.</p>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showPanel('map', this)">Decision map</button>
+    <button class="tab" onclick="showPanel('quiz', this)">Quick quiz</button>
+  </div>
+
+  <!-- ═══════════════ MAP PANEL ═══════════════ -->
+  <div class="panel active" id="panel-map">
+    <div class="chart-wrap">
+      <svg width="100%" viewBox="0 0 1060 440" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M2 2L8 5L2 8" fill="none" stroke="#C8C5BC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </marker>
+        </defs>
+
+        <!-- ── ROOT: Public or private? centre x=530 ── -->
+        <rect x="355" y="16" width="350" height="44" rx="22" fill="#F0EFEB" stroke="#C8C5BC" stroke-width="1.5"/>
+        <text x="530" y="43" text-anchor="middle" font-family="'Sora',sans-serif" font-size="14" font-weight="600" fill="#1C1B18">Public or private / internal data?</text>
+
+        <!-- root → public -->
+        <line x1="440" y1="60" x2="270" y2="112" stroke="#C8C5BC" stroke-width="1.5" marker-end="url(#a)"/>
+        <rect x="310" y="70" width="54" height="20" rx="10" fill="white" stroke="#C8C5BC" stroke-width="1"/>
+        <text x="337" y="84" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="500" fill="#888780">Public</text>
+
+        <!-- root → private -->
+        <line x1="620" y1="60" x2="790" y2="112" stroke="#C8C5BC" stroke-width="1.5" marker-end="url(#a)"/>
+        <rect x="680" y="70" width="54" height="20" rx="10" fill="white" stroke="#C8C5BC" stroke-width="1"/>
+        <text x="707" y="84" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="500" fill="#888780">Private</text>
+
+        <!-- column labels -->
+        <text x="240" y="108" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" font-weight="600" fill="#C8C5BC" letter-spacing="0.08em">PUBLIC</text>
+        <text x="810" y="108" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" font-weight="600" fill="#C8C5BC" letter-spacing="0.08em">PRIVATE / INTERNAL</text>
+
+        <!-- divider -->
+        <line x1="530" y1="60" x2="530" y2="430" stroke="#E0DED8" stroke-width="1" stroke-dasharray="5 5"/>
+
+        <!-- ══ PUBLIC SIDE ══ -->
+        <!-- Q: Want internet? x=120..360, centre=240 -->
+        <rect x="110" y="120" width="260" height="44" rx="8" fill="#E6F1FB" stroke="#85B7EB" stroke-width="1.5"/>
+        <text x="240" y="139" text-anchor="middle" font-family="'Sora',sans-serif" font-size="12" font-weight="600" fill="#0C447C">Want internet access?</text>
+        <text x="240" y="155" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" fill="#378ADD">(to search live sources)</text>
+
+        <!-- public yes internet → left -->
+        <line x1="180" y1="164" x2="130" y2="212" stroke="#C8C5BC" stroke-width="1.5" marker-end="url(#a)"/>
+        <rect x="118" y="175" width="32" height="18" rx="9" fill="white" stroke="#C8C5BC" stroke-width="1"/>
+        <text x="134" y="188" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" font-weight="500" fill="#888780">Yes</text>
+
+        <!-- public no internet → right -->
+        <line x1="300" y1="164" x2="346" y2="212" stroke="#C8C5BC" stroke-width="1.5" marker-end="url(#a)"/>
+        <rect x="310" y="175" width="28" height="18" rx="9" fill="white" stroke="#C8C5BC" stroke-width="1"/>
+        <text x="324" y="188" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" font-weight="500" fill="#888780">No</text>
+
+        <!-- public, yes internet: Q repeated task? centre=100 -->
+        <rect x="30" y="220" width="200" height="44" rx="8" fill="#E6F1FB" stroke="#85B7EB" stroke-width="1.5"/>
+        <text x="130" y="239" text-anchor="middle" font-family="'Sora',sans-serif" font-size="12" font-weight="600" fill="#0C447C">One-off or repeated</text>
+        <text x="130" y="255" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" fill="#378ADD">task / workflow?</text>
+
+        <!-- public yes internet, repeated → Claude -->
+        <line x1="80" y1="264" x2="60" y2="310" stroke="#C8C5BC" stroke-width="1.5" marker-end="url(#a)"/>
+        <rect x="34" y="274" width="54" height="18" rx="9" fill="white" stroke="#C8C5BC" stroke-width="1"/>
+        <text x="61" y="287" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" font-weight="500" fill="#888780">Repeated</text>
+
+        <!-- public yes internet, one-off → ChatGPT -->
+        <line x1="180" y1="264" x2="198" y2="310" stroke="#C8C5BC" stroke-width="1.5" marker-end="url(#a)"/>
+        <rect x="162" y="274" width="44" height="18" rx="9" fill="white" stroke="#C8C5BC" stroke-width="1"/>
+        <text x="184" y="287" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" font-weight="500" fill="#888780">One-off</text>
+
+        <!-- RESULT: Claude (public, internet, repeated) -->
+        <rect x="20" y="318" width="80" height="56" rx="10" fill="#FFF3E0" stroke="#FFA726" stroke-width="2"/>
+        <text x="60" y="344" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="600" fill="#4E2600">🧡</text>
+        <text x="60" y="362" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="600" fill="#E65100">Claude</text>
+
+        <!-- RESULT: ChatGPT (public, internet, one-off) -->
+        <rect x="158" y="318" width="80" height="56" rx="10" fill="#E8F5E9" stroke="#66BB6A" stroke-width="2"/>
+        <text x="198" y="344" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="600" fill="#1B5E20">🟢</text>
+        <text x="198" y="362" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="600" fill="#2E7D32">ChatGPT</text>
+
+        <!-- public, no internet → NotebookLM directly -->
+        <rect x="318" y="220" width="180" height="56" rx="10" fill="#EDE7F6" stroke="#7E57C2" stroke-width="2"/>
+        <text x="408" y="246" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="600" fill="#1A0047">📓</text>
+        <text x="408" y="263" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="600" fill="#4527A0">Gemini NotebookLM</text>
+
+        <!-- ══ PRIVATE SIDE ══ -->
+        <!-- Q: Want internet? centre=790 -->
+        <rect x="660" y="120" width="260" height="44" rx="8" fill="#E6F1FB" stroke="#85B7EB" stroke-width="1.5"/>
+        <text x="790" y="139" text-anchor="middle" font-family="'Sora',sans-serif" font-size="12" font-weight="600" fill="#0C447C">Want internet access?</text>
+        <text x="790" y="155" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" fill="#378ADD">(to search live sources)</text>
+
+        <!-- private yes internet → left -->
+        <line x1="730" y1="164" x2="684" y2="212" stroke="#C8C5BC" stroke-width="1.5" marker-end="url(#a)"/>
+        <rect x="672" y="175" width="32" height="18" rx="9" fill="white" stroke="#C8C5BC" stroke-width="1"/>
+        <text x="688" y="188" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" font-weight="500" fill="#888780">Yes</text>
+
+        <!-- private no internet → right -->
+        <line x1="850" y1="164" x2="896" y2="212" stroke="#C8C5BC" stroke-width="1.5" marker-end="url(#a)"/>
+        <rect x="858" y="175" width="28" height="18" rx="9" fill="white" stroke="#C8C5BC" stroke-width="1"/>
+        <text x="872" y="188" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" font-weight="500" fill="#888780">No</text>
+
+        <!-- private, yes internet: Q repeated? centre=654 -->
+        <rect x="554" y="220" width="200" height="44" rx="8" fill="#E6F1FB" stroke="#85B7EB" stroke-width="1.5"/>
+        <text x="654" y="239" text-anchor="middle" font-family="'Sora',sans-serif" font-size="12" font-weight="600" fill="#0C447C">One-off or repeated</text>
+        <text x="654" y="255" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" fill="#378ADD">task / workflow?</text>
+
+        <!-- private yes internet repeated → Mai -->
+        <line x1="600" y1="264" x2="576" y2="310" stroke="#C8C5BC" stroke-width="1.5" marker-end="url(#a)"/>
+        <rect x="558" y="274" width="54" height="18" rx="9" fill="white" stroke="#C8C5BC" stroke-width="1"/>
+        <text x="585" y="287" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" font-weight="500" fill="#888780">Repeated</text>
+
+        <!-- private yes internet one-off → Gemini deep research -->
+        <line x1="708" y1="264" x2="728" y2="310" stroke="#C8C5BC" stroke-width="1.5" marker-end="url(#a)"/>
+        <rect x="690" y="274" width="44" height="18" rx="9" fill="white" stroke="#C8C5BC" stroke-width="1"/>
+        <text x="712" y="287" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" font-weight="500" fill="#888780">One-off</text>
+
+        <!-- RESULT: Mai (private, internet, repeated) -->
+        <rect x="540" y="318" width="72" height="56" rx="10" fill="#E3F2FD" stroke="#42A5F5" stroke-width="2"/>
+        <text x="576" y="344" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="600" fill="#0D2B5E">🔵</text>
+        <text x="576" y="362" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="600" fill="#1565C0">Mai</text>
+
+        <!-- RESULT: Gemini deep research (private, internet, one-off) -->
+        <rect x="680" y="318" width="96" height="56" rx="10" fill="#FCE4EC" stroke="#EC407A" stroke-width="2"/>
+        <text x="728" y="344" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="600" fill="#4A0020">🔴</text>
+        <text x="728" y="362" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="600" fill="#880E4F">Gemini research</text>
+
+        <!-- private, no internet: Q docs downloaded? centre=920 -->
+        <rect x="820" y="220" width="220" height="44" rx="8" fill="#E6F1FB" stroke="#85B7EB" stroke-width="1.5"/>
+        <text x="930" y="239" text-anchor="middle" font-family="'Sora',sans-serif" font-size="12" font-weight="600" fill="#0C447C">Docs already</text>
+        <text x="930" y="255" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" fill="#378ADD">downloaded?</text>
+
+        <!-- private, no internet, yes downloaded → NotebookLM -->
+        <line x1="880" y1="264" x2="856" y2="310" stroke="#C8C5BC" stroke-width="1.5" marker-end="url(#a)"/>
+        <rect x="840" y="274" width="32" height="18" rx="9" fill="white" stroke="#C8C5BC" stroke-width="1"/>
+        <text x="856" y="287" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" font-weight="500" fill="#888780">Yes</text>
+
+        <!-- private, no internet, not downloaded → Mai -->
+        <line x1="980" y1="264" x2="998" y2="310" stroke="#C8C5BC" stroke-width="1.5" marker-end="url(#a)"/>
+        <rect x="968" y="274" width="28" height="18" rx="9" fill="white" stroke="#C8C5BC" stroke-width="1"/>
+        <text x="982" y="287" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" font-weight="500" fill="#888780">No</text>
+
+        <!-- RESULT: NotebookLM (private, no internet, downloaded) -->
+        <rect x="800" y="318" width="110" height="56" rx="10" fill="#EDE7F6" stroke="#7E57C2" stroke-width="2"/>
+        <text x="855" y="344" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="600" fill="#1A0047">📓</text>
+        <text x="855" y="362" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" font-weight="600" fill="#4527A0">Gemini NotebookLM</text>
+
+        <!-- RESULT: Mai (private, no internet, not downloaded) -->
+        <rect x="968" y="318" width="72" height="56" rx="10" fill="#E3F2FD" stroke="#42A5F5" stroke-width="2"/>
+        <text x="1004" y="344" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="600" fill="#0D2B5E">🔵</text>
+        <text x="1004" y="362" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="600" fill="#1565C0">Mai</text>
+
+      </svg>
+    </div>
+
+    <!-- Tool bubbles -->
+    <div class="tool-row" id="map-bubbles">
+      <div class="tool-bubble gpt" id="b-gpt">
+        <div class="tool-icon">🟢</div>
+        <div class="tool-name gpt">ChatGPT</div>
+        <div class="tool-tag">Public · internet · one-off</div>
+      </div>
+      <div class="tool-bubble claude" id="b-claude">
+        <div class="tool-icon">🧡</div>
+        <div class="tool-name claude">Claude</div>
+        <div class="tool-tag">Public · internet · repeated</div>
+      </div>
+      <div class="tool-bubble mai" id="b-mai">
+        <div class="tool-icon">🔵</div>
+        <div class="tool-name mai">Mai</div>
+        <div class="tool-tag">Private · internal docs</div>
+      </div>
+      <div class="tool-bubble gemini" id="b-gemini">
+        <div class="tool-icon">🔴</div>
+        <div class="tool-name gemini">Gemini deep research</div>
+        <div class="tool-tag">Private · internet · one-off</div>
+      </div>
+      <div class="tool-bubble notebooklm" id="b-notebooklm">
+        <div class="tool-icon">📓</div>
+        <div class="tool-name notebooklm">Gemini NotebookLM</div>
+        <div class="tool-tag">No internet · offline files</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ QUIZ PANEL ═══════════════ -->
+  <div class="panel" id="panel-quiz">
+    <div class="quiz-wrap">
+      <div class="quiz-progress" id="quiz-progress"></div>
+
+      <div id="quiz-questions">
+        <div class="quiz-card" id="quiz-card">
+          <div class="quiz-q-num" id="q-num"></div>
+          <div class="quiz-q-text" id="q-text"></div>
+          <div class="quiz-options" id="q-opts"></div>
+        </div>
+        <button class="quiz-back" id="quiz-back-btn" onclick="quizBack()" style="display:none;">
+          ← Back
+        </button>
+      </div>
+
+      <div class="result-card" id="quiz-result">
+        <div class="result-label">Recommended tool</div>
+        <div id="result-bubble-wrap"></div>
+        <div class="result-reason" id="result-reason"></div>
+        <div class="result-also" id="result-also"></div>
+        <button class="retry-btn" onclick="quizReset()">← Start over</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── Panel switching ──
+function showPanel(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// ── Quiz logic ──
+const TOOLS = {
+  gpt:        { name: 'ChatGPT',             icon: '🟢', cls: 'gpt' },
+  claude:     { name: 'Claude',              icon: '🧡', cls: 'claude' },
+  mai:        { name: 'Mai',                 icon: '🔵', cls: 'mai' },
+  gemini:     { name: 'Gemini deep research',icon: '🔴', cls: 'gemini' },
+  notebooklm: { name: 'Gemini NotebookLM',   icon: '📓', cls: 'notebooklm' },
+};
+
+// Decision tree: each node is a question or a result
+// { type:'q', text, sub, opts:[{label, next}] }
+// { type:'r', tool, reason, also }
+const TREE = {
+  root: {
+    type:'q', text:'Is your data public or private?',
+    sub: 'Public data is anything you\'d share openly. Private / internal means org data, client info, or anything sensitive.',
+    opts:[
+      { label:'🌍  Public data', next:'pub_internet' },
+      { label:'🔒  Private / internal data', next:'priv_internet' },
+    ]
+  },
+  pub_internet: {
+    type:'q', text:'Do you want internet access?',
+    sub:'i.e. do you want the tool to search live web sources as part of its answer?',
+    opts:[
+      { label:'Yes — search the live web', next:'pub_yes_repeated' },
+      { label:'No — just use what I give it', next:'r_notebooklm_pub' },
+    ]
+  },
+  pub_yes_repeated: {
+    type:'q', text:'Is this a one-off task or something you\'ll do repeatedly?',
+    sub:'Repeated tasks benefit from Skills — saved instructions that run automatically.',
+    opts:[
+      { label:'🔁  Repeated workflow or task', next:'r_claude' },
+      { label:'⚡  One-off task', next:'r_gpt' },
+    ]
+  },
+  priv_internet: {
+    type:'q', text:'Do you want internet access?',
+    sub:'i.e. do you want the tool to search live web sources alongside your internal data?',
+    opts:[
+      { label:'Yes — search the live web too', next:'priv_yes_repeated' },
+      { label:'No — internal data only', next:'priv_no_docs' },
+    ]
+  },
+  priv_yes_repeated: {
+    type:'q', text:'Is this a one-off task or something you\'ll do repeatedly?',
+    sub:'Repeated tasks benefit from Skills — saved instructions that run automatically.',
+    opts:[
+      { label:'🔁  Repeated workflow or task', next:'r_mai_repeated' },
+      { label:'⚡  One-off task', next:'r_gemini' },
+    ]
+  },
+  priv_no_docs: {
+    type:'q', text:'Do you have the documents downloaded already?',
+    sub:'Or do you need a tool that can search and retrieve internal bank documents for you?',
+    opts:[
+      { label:'Yes — I have my files ready', next:'r_notebooklm' },
+      { label:'No — I need it to find them', next:'r_mai_nodocs' },
+    ]
+  },
+  r_gpt: {
+    type:'r', tool:'gpt',
+    reason:'For a one-off public task with live web access, ChatGPT is your strongest option — especially for research and synthesis across current sources.',
+    also:'Also works: Claude'
+  },
+  r_claude: {
+    type:'r', tool:'claude',
+    reason:'For repeated public workflows, Claude is the pick. Its Skills feature lets you save prompt templates and automate recurring tasks so you\'re not starting from scratch every time.',
+    also:'Also works: ChatGPT for one-off variations'
+  },
+  r_mai_repeated: {
+    type:'r', tool:'mai',
+    reason:'For repeated internal workflows, Mai is your tool. It has Skills support and can access internal bank documents directly — so you can automate recurring tasks without sharing data externally.',
+    also:''
+  },
+  r_gemini: {
+    type:'r', tool:'gemini',
+    reason:'For a one-off private task where you also want web access, Gemini deep research can work across your downloaded files and the live web — keeping your data within the Google ecosystem.',
+    also:'Also: Mai if you need it to retrieve internal docs'
+  },
+  r_notebooklm: {
+    type:'r', tool:'notebooklm',
+    reason:'You have your files and don\'t need the web — Gemini NotebookLM is perfect. It works entirely from the documents you upload, with no internet access, so nothing leaves your control.',
+    also:''
+  },
+  r_notebooklm_pub: {
+    type:'r', tool:'notebooklm',
+    reason:'You\'re working with public data but don\'t need live web search — Gemini NotebookLM lets you upload your own files and get answers purely from those, with no internet access.',
+    also:'Also works: Claude or ChatGPT with documents pasted in'
+  },
+  r_mai_nodocs: {
+    type:'r', tool:'mai',
+    reason:'Mai can search and retrieve internal bank documents directly — you don\'t need to have everything downloaded first. It keeps all data internal and supports repeated workflows via Skills.',
+    also:''
+  },
+};
+
+let history = [];
+let current = 'root';
+
+function quizRender() {
+  const node = TREE[current];
+  const totalQs = 3; // max depth
+  const depth = history.length;
+
+  // Progress pips
+  const prog = document.getElementById('quiz-progress');
+  prog.innerHTML = '';
+  for (let i = 0; i < totalQs; i++) {
+    const pip = document.createElement('div');
+    pip.className = 'quiz-pip' + (i < depth ? ' done' : i === depth ? ' active' : '');
+    prog.appendChild(pip);
+  }
+
+  document.getElementById('quiz-back-btn').style.display = history.length > 0 ? 'flex' : 'none';
+
+  if (node.type === 'r') {
+    // Show result
+    document.getElementById('quiz-questions').style.display = 'none';
+    const rc = document.getElementById('quiz-result');
+    rc.classList.add('show');
+    const t = TOOLS[node.tool];
+    document.getElementById('result-bubble-wrap').innerHTML =
+      `<div class="result-bubble ${t.cls}"><div class="r-icon">${t.icon}</div><div class="r-name">${t.name}</div></div>`;
+    document.getElementById('result-reason').textContent = node.reason;
+    document.getElementById('result-also').textContent = node.also;
+    return;
+  }
+
+  // Show question
+  document.getElementById('quiz-questions').style.display = 'block';
+  document.getElementById('quiz-result').classList.remove('show');
+  document.getElementById('q-num').textContent = 'Question ' + (depth + 1);
+  document.getElementById('q-text').textContent = node.text;
+
+  const opts = document.getElementById('q-opts');
+  opts.innerHTML = '';
+  node.opts.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-opt';
+    btn.textContent = opt.label;
+    btn.onclick = () => { history.push(current); current = opt.next; quizRender(); };
+    opts.appendChild(btn);
+  });
+}
+
+function quizBack() {
+  if (history.length === 0) return;
+  current = history.pop();
+  quizRender();
+}
+
+function quizReset() {
+  history = [];
+  current = 'root';
+  document.getElementById('quiz-questions').style.display = 'block';
+  document.getElementById('quiz-result').classList.remove('show');
+  quizRender();
+}
+
+quizRender();
+</script>
+</body>
+</html>

@@ -167,30 +167,45 @@
 </header>
 
 <main class="main">
-  <div class="intro">
-    <p class="eyebrow">Workshop exercise</p>
-    <h1>Iterating toward a better prompt</h1>
-    <p>You'll start with a rough prompt on a topic relevant to your own work, observe why it falls short, then improve it through deliberate manual refinement — learning the thinking behind good prompts before we hand you a tool that automates it.</p>
+
+  <!-- Main Tabs -->
+  <div class="tabs" style="margin-bottom:2.5rem;">
+    <button class="tab active" id="tab-ai-tool" onclick="showMainPanel('ai-tool', this)">AI Tool Picker</button>
+    <button class="tab" id="tab-worksheet" onclick="showMainPanel('worksheet', this)">Worksheet</button>
   </div>
 
-  <div class="setup-card">
-    <p class="setup-heading">First — tell us about your context</p>
-    <div class="setup-grid">
-      <div>
-        <label class="field-label" for="countryInput">Your country or region</label>
-        <input class="setup-input" type="text" id="countryInput" placeholder="e.g. Kenya, West Africa, South Asia" />
-        <p class="field-hint">Example: Nigeria</p>
-      </div>
-      <div>
-        <label class="field-label" for="topicInput">Your topic or sector</label>
-        <input class="setup-input" type="text" id="topicInput" placeholder="e.g. food security, education, FCV" />
-        <p class="field-hint">Example: FCV (fragility, conflict &amp; violence)</p>
-      </div>
-    </div>
-    <div id="setupActions">
-      <button class="build-btn" onclick="buildWorksheet()">Build my worksheet &rarr;</button>
-    </div>
+  <!-- AI Tool Picker Panel -->
+  <div class="panel active" id="panel-ai-tool">
+    <iframe src="/ai-tool-picker" style="width:100%;height:900px;border:none;border-radius:14px;background:white;"></iframe>
   </div>
+
+  <!-- Worksheet Panel -->
+  <div class="panel" id="panel-worksheet">
+    <div class="intro">
+      <p class="eyebrow">Workshop exercise</p>
+      <h1>Iterating toward a better prompt</h1>
+      <p>You'll start with a rough prompt on a topic relevant to your own work, observe why it falls short, then improve it through deliberate manual refinement — learning the thinking behind good prompts before we hand you a tool that automates it.</p>
+    </div>
+
+    <div class="setup-card">
+      <p class="setup-heading">First — tell us about your context</p>
+      <div class="setup-grid">
+        <div>
+          <label class="field-label" for="countryInput">Your country or region</label>
+          <input class="setup-input" type="text" id="countryInput" placeholder="e.g. Kenya, West Africa, South Asia" />
+          <p class="field-hint">Example: Nigeria</p>
+        </div>
+        <div>
+          <label class="field-label" for="topicInput">Your topic or sector</label>
+          <input class="setup-input" type="text" id="topicInput" placeholder="e.g. food security, education, FCV" />
+          <p class="field-hint">Example: FCV (fragility, conflict &amp; violence)</p>
+        </div>
+      </div>
+      <div id="setupActions">
+        <button class="build-btn" onclick="buildWorksheet()">Build my worksheet &rarr;</button>
+      </div>
+    </div>
+    <!-- The rest of the worksheet content remains unchanged below -->
 
   <!-- Step 1 -->
   <div class="step" id="step1">
@@ -503,6 +518,14 @@ Once the user confirms the refined prompt:
 </main>
 
 <script>
+  // Main tab switching logic
+  function showMainPanel(id, btn) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('panel-' + id).classList.add('active');
+    btn.classList.add('active');
+  }
+
   function buildWorksheet() {
     var country = document.getElementById('countryInput').value.trim();
     var topic = document.getElementById('topicInput').value.trim();
