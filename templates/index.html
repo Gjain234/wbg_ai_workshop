@@ -6,6 +6,31 @@
 <title>Mai — Prompt Engineering Workshop</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+  .main-tabs {
+    margin-bottom:2.5rem;
+    display:flex;
+    gap:8px;
+    background:transparent;
+    border-radius:12px;
+    padding:5px;
+    width:fit-content;
+    max-width:100vw;
+    box-shadow:none;
+  }
+  .main-tab {
+    font-family:var(--font); font-size:15px; font-weight:500;
+    padding:11px 38px; border-radius:8px; border:none;
+    background:var(--gray-100); color:var(--gray-400); cursor:pointer; transition:all 0.18s;
+    margin:0; outline:none;
+    box-shadow:none;
+  }
+  .main-tab.active {
+    background:white; color:var(--blue-800); box-shadow:0 2px 8px rgba(0,0,0,0.04);
+    border:1.5px solid var(--blue-100);
+    z-index:1;
+  }
+  .main-panel { display:none; }
+  .main-panel.active { display:block; }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
     --blue-50:#E6F1FB; --blue-100:#B5D4F4; --blue-200:#85B7EB; --blue-400:#378ADD; --blue-600:#185FA5; --blue-800:#0C447C; --blue-900:#042C53;
@@ -169,18 +194,16 @@
 <main class="main">
 
   <!-- Main Tabs -->
-  <div class="tabs" style="margin-bottom:2.5rem;">
-    <button class="tab active" id="tab-ai-tool" onclick="showMainPanel('ai-tool', this)">AI Tool Picker</button>
-    <button class="tab" id="tab-worksheet" onclick="showMainPanel('worksheet', this)">Worksheet</button>
+  <div class="main-tabs" style="margin-bottom:2.5rem; display:flex; gap:8px; background:transparent; border-radius:12px; padding:5px; width:fit-content; max-width:100vw;">
+    <button class="main-tab active" id="tab-ai-tool" onclick="showMainPanel('ai-tool', this)">AI Tool Picker</button>
+    <button class="main-tab" id="tab-worksheet" onclick="showMainPanel('worksheet', this)">Worksheet</button>
   </div>
 
-  <!-- AI Tool Picker Panel -->
-  <div class="panel active" id="panel-ai-tool">
-    <iframe src="/ai-tool-picker" style="width:100%;height:900px;border:none;border-radius:14px;background:white;"></iframe>
+  <div class="panel main-panel active" id="panel-ai-tool" style="padding:0;max-width:none;">
+    <iframe src="/ai-tool-picker" style="width:100vw;height:100vh;border:none;border-radius:14px 14px 18px 18px;background:white;box-shadow:0 2px 16px rgba(0,0,0,0.04);display:block;margin-left:calc(-50vw + 50%);margin-right:calc(-50vw + 50%);overflow:hidden;"></iframe>
   </div>
 
-  <!-- Worksheet Panel -->
-  <div class="panel" id="panel-worksheet">
+  <div class="panel main-panel" id="panel-worksheet">
     <div class="intro">
       <p class="eyebrow">Workshop exercise</p>
       <h1>Iterating toward a better prompt</h1>

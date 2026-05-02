@@ -6,8 +6,9 @@ app = Flask(__name__)
 def home():
     return render_template("index.html")
 
-
-# Route for AI Tool Picker tab
 @app.route("/ai-tool-picker")
 def ai_tool_picker():
     return render_template("ai-tool-picker.html")
+
+if __name__ == "__main__":
+    app.run(debug=True)
