@@ -27,6 +27,8 @@
 
   .page-header { background:white; border-bottom:1px solid var(--gray-200); padding:1.1rem 2rem; display:flex; align-items:center; gap:14px; position:sticky; top:0; z-index:100; }
   .header-title { font-size:14px; font-weight:500; color:var(--gray-800); }
+  .survey-btn { font-family:var(--font); font-size:13px; font-weight:500; padding:6px 14px; border-radius:6px; border:1.5px solid var(--blue-200); background:var(--blue-50); color:var(--blue-800); text-decoration:none; white-space:nowrap; transition:all 0.15s; flex-shrink:0; }
+  .survey-btn:hover { background:var(--blue-100); border-color:var(--blue-400); }
 
   .main { max-width:740px; margin:0 auto; padding:2.5rem 1.5rem 5rem; }
 
@@ -144,6 +146,12 @@
   .skill-copy-btn:hover { background:var(--purple-100); }
   .skill-copy-btn.copied { background:var(--green-50); color:var(--green-800); border-color:var(--green-100); }
 
+  .better-prompt-wrap { border:1.5px solid var(--purple-100); border-radius:var(--r-md); margin-bottom:0.75rem; overflow:hidden; }
+  .better-prompt-header { background:var(--purple-50); padding:0.75rem 1.1rem; display:flex; align-items:center; justify-content:space-between; }
+  .better-prompt-label { font-size:13px; font-weight:500; color:var(--purple-800); }
+  .better-prompt-hint { font-size:11px; color:var(--purple-800); opacity:0.65; }
+  .better-prompt-body { padding:1rem 1.1rem; background:white; border-top:1px solid var(--purple-100); }
+  .better-prompt-pre { font-family:var(--mono); font-size:12px; color:var(--gray-800); background:var(--gray-50); border:1.5px solid var(--gray-200); border-radius:var(--r-sm); padding:10px 12px; line-height:1.6; white-space:pre-wrap; word-break:break-word; max-height:280px; overflow-y:auto; margin-bottom:8px; }
   .compare-box { background:var(--amber-50); border:1.5px solid var(--amber-100); border-radius:var(--r-md); padding:1rem 1.1rem; margin:1rem 0; }
   .compare-box p { font-size:13px; color:var(--amber-800); line-height:1.65; }
   .compare-box strong { font-weight:500; }
@@ -164,6 +172,8 @@
     <button class="header-tab active" id="tab-ai-tool" onclick="showMainPanel('ai-tool', this)">AI Tool Picker</button>
     <button class="header-tab" id="tab-worksheet" onclick="showMainPanel('worksheet', this)">Worksheet</button>
   </nav>
+  <a href="https://www.menti.com/al85dk3q3yv7" target="_blank" class="survey-btn">Pre-workshop survey</a>
+  <a href="https://www.menti.com/alx3smtynqs8" target="_blank" class="survey-btn">Post-workshop survey</a>
 </header>
 
 <div id="panel-ai-tool" class="active">
@@ -174,46 +184,23 @@
     <div class="intro">
       <p class="eyebrow">Workshop exercise</p>
       <h1>Iterating toward a better prompt</h1>
-      <p>You'll start with a rough prompt on a topic relevant to your own work, observe why it falls short, then improve it through deliberate manual refinement — learning the thinking behind good prompts before we hand you a tool that automates it.</p>
+      <p>You'll start with a rough prompt, observe why it falls short, then improve it through deliberate manual refinement — learning the thinking behind good prompts before we hand you a tool that automates it.</p>
     </div>
-
-    <div class="setup-card">
-      <p class="setup-heading">First — tell us about your context</p>
-      <div class="setup-grid">
-        <div>
-          <label class="field-label" for="countryInput">Your country or region</label>
-          <input class="setup-input" type="text" id="countryInput" placeholder="e.g. Kenya, West Africa, South Asia" />
-          <p class="field-hint">Example: Nigeria</p>
-        </div>
-        <div>
-          <label class="field-label" for="topicInput">Your topic or sector</label>
-          <input class="setup-input" type="text" id="topicInput" placeholder="e.g. food security, education, FCV" />
-          <p class="field-hint">Example: FCV (fragility, conflict &amp; violence)</p>
-        </div>
-      </div>
-      <div id="setupActions">
-        <button class="build-btn" onclick="buildWorksheet()">Build my worksheet &rarr;</button>
-      </div>
-    </div>
-    <!-- The rest of the worksheet content remains unchanged below -->
 
   <!-- Step 1 -->
-  <div class="step" id="step1">
+  <div class="step is-active" id="step1">
     <div class="step-header" onclick="toggleStep(1)">
-      <div class="step-num todo" id="num1">1</div>
-      <div class="step-title muted" id="title1">Try the raw prompt</div>
+      <div class="step-num active" id="num1">1</div>
+      <div class="step-title" id="title1">Try the raw prompt</div>
       <span class="step-tag tag-observe">Observe</span>
-      <svg class="chevron" id="chev1" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,6 8,10 12,6"/></svg>
+      <svg class="chevron open" id="chev1" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,6 8,10 12,6"/></svg>
     </div>
-    <div class="step-body" id="body1">
-      <div id="s1locked"><p class="locked-msg">Fill in your country and topic above to unlock this step.</p></div>
-      <div id="s1content" style="display:none">
+    <div class="step-body open" id="body1">
         <p class="instruction">Open Mai and paste this prompt exactly as written. Don't improve it — the point is to see what a rough, unrefined prompt produces.</p>
         <div class="prompt-display">
-          <span id="raw1" class="prompt-ph">Your prompt will appear once you fill in the fields above.</span>
+          <span id="raw1">Give a summary of recent fcv risks from last 3 months in Yemen and potential impacts of those risks to water projects in the portfolio</span>
           <button class="copy-btn" onclick="copyById('raw1',this)">Copy</button>
         </div>
-        <div class="eg-box"><p class="eg-label">Workshop example</p><code>give me recent fcv news for Nigeria</code></div>
         <p class="instruction">Look at what Mai gives back. Notice what's missing or unhelpful.</p>
         <p class="section-label">What do you notice? Check all that apply</p>
         <ul class="check-list">
@@ -222,12 +209,9 @@
           <li onclick="toggleCheck(this)"><div class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none" stroke="white" stroke-width="2"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg></div>No sources specified — could be anything</li>
           <li onclick="toggleCheck(this)"><div class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none" stroke="white" stroke-width="2"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg></div>The topic isn't clearly defined</li>
           <li onclick="toggleCheck(this)"><div class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none" stroke="white" stroke-width="2"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg></div>No output format or structure requested</li>
-          <li onclick="toggleCheck(this)"><div class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none" stroke="white" stroke-width="2"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg></div>Something else (note below)</li>
+          <li onclick="toggleCheck(this)"><div class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none" stroke="white" stroke-width="2"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg></div>Something else</li>
         </ul>
-        <p class="section-label">Your observations</p>
-        <textarea class="notes-area" placeholder="What was missing or unhelpful in Mai's first response?"></textarea>
-        <button class="done-btn" onclick="completedStep(1,2,25)">Mark complete &rarr;</button>
-      </div>
+        <button class="done-btn" onclick="completedStep(1,2)">Mark complete &rarr;</button>
     </div>
   </div>
 
@@ -235,28 +219,21 @@
   <div class="step" id="step2">
     <div class="step-header" onclick="toggleStep(2)">
       <div class="step-num todo" id="num2">2</div>
-      <div class="step-title muted" id="title2">Let Mai ask you the questions</div>
+      <div class="step-title" id="title2">Let Mai ask you 3 questions first</div>
       <span class="step-tag tag-explore">Explore</span>
       <svg class="chevron" id="chev2" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,6 8,10 12,6"/></svg>
     </div>
     <div class="step-body" id="body2">
-      <div id="s2locked"><p class="locked-msg">Complete step 1 first.</p></div>
-      <div id="s2content" style="display:none">
-        <p class="instruction">Before trying to fix the prompt yourself, let Mai surface the gaps. Start a fresh Mai conversation, paste your raw prompt from step 1, then add this follow-up:</p>
+        <p class="instruction">Instead of answering straight away, have Mai ask you 5 clarifying questions first. Your answers will let it give a much more targeted response. Paste this into a fresh Mai conversation:</p>
         <div class="prompt-display">
-          <span id="raw2">ask me questions to help refine this prompt further</span>
+          <span id="raw2">Here is my request: Give a summary of recent fcv risks from last 3 months in Yemen and potential impacts of those risks to water projects in the portfolio.<br><br>Before you answer, ask me 5 clarifying questions that would help you give a more useful and accurate response.</span>
           <button class="copy-btn" onclick="copyById('raw2',this)">Copy</button>
         </div>
         <div class="tip">
           <div class="tip-icon">&#9432;</div>
-          <div class="tip-text"><strong>What to watch for:</strong> Mai may ask about your audience, how you'll use the output, what level of detail you need, or how recent "recent" actually means. Each question points to a real gap — some you may not have spotted yourself.</div>
+          <div class="tip-text"><strong>What to watch for:</strong> Mai might ask who the audience is, what level of detail you need, which specific projects matter most, or what you plan to do with the output. Answer all 3, then let it run — notice how the response differs from step 1.</div>
         </div>
-        <p class="section-label">What questions did Mai ask you?</p>
-        <textarea class="notes-area" placeholder="List the questions Mai asked."></textarea>
-        <p class="section-label">Which ones surprised you — gaps you hadn't thought of?</p>
-        <textarea class="notes-area" placeholder="Were there things you hadn't considered? Which mattered most?"></textarea>
-        <button class="done-btn" onclick="completedStep(2,3,50)">Mark complete &rarr;</button>
-      </div>
+        <button class="done-btn" onclick="completedStep(2,3)">Mark complete &rarr;</button>
     </div>
   </div>
 
@@ -264,244 +241,159 @@
   <div class="step" id="step3">
     <div class="step-header" onclick="toggleStep(3)">
       <div class="step-num todo" id="num3">3</div>
-      <div class="step-title muted" id="title3">Refine it yourself</div>
+      <div class="step-title" id="title3">Try a more thorough prompt we developed after more iterations</div>
       <span class="step-tag tag-refine">Refine</span>
       <svg class="chevron" id="chev3" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,6 8,10 12,6"/></svg>
     </div>
     <div class="step-body" id="body3">
-      <div id="s3locked"><p class="locked-msg">Complete step 2 first.</p></div>
-      <div id="s3content" style="display:none">
-        <p class="instruction">Now that you know what's missing, apply those fixes yourself. Use Mai's questions from step 2 as your guide. A good place to start: restrict the sources to credible ones. Try this in a new Mai conversation:</p>
-        <div class="prompt-display">
-          <span id="raw3">can we improve this further by restricting sources to reputable news outlets, international development reports, and credible local or regional sources?</span>
-          <button class="copy-btn" onclick="copyById('raw3',this)">Copy</button>
-        </div>
-        <div class="eg-box"><p class="eg-label">Workshop example</p><code>can we improve this by restricting sources to reputable news outlets, international development reports, and credible local or regional sources?</code></div>
-        <div class="note-box">
-          <p><strong>Don't feel locked in to this wording.</strong> Address whichever gap felt most important from step 2 — a missing time frame, an unclear audience, no output format. The goal is to fix one specific thing deliberately and see if it helps.</p>
+        <p class="instruction">Open a new Mai conversation, copy the prompt below, and paste it in. Compare what you get back to step 1.</p>
+        <div class="better-prompt-wrap">
+          <div class="better-prompt-header">
+            <div>
+              <div class="better-prompt-label">Refined prompt</div>
+              <div class="better-prompt-hint">Copy and paste into a new Mai conversation</div>
+            </div>
+            <button class="skill-copy-btn" onclick="copyById('raw3',this)">Copy</button>
+          </div>
+          <div class="better-prompt-body">
+          <pre id="raw3" class="better-prompt-pre"># FCV Risk Country-Sector Briefing Generator
+
+Produce a structured analytical briefing on recent FCV (fragility, conflict, and violence) risks for a specified country and sector, and their potential impacts on active World Bank portfolio projects.
+
+---
+
+## Step 1: Confirm Inputs
+
+Check the user's message for both required inputs:
+- **Country** (or sub-national region)
+- **Sector** (e.g. water, education, agriculture, transport, health, social protection)
+
+If either is missing, ask for both in a single message using the ask_questions tool. Once confirmed, proceed without further clarification.
+
+---
+
+## Step 2: Research
+
+Run internal and external searches in parallel where possible.
+
+**Internal sources first:**
+
+1. Search the **WB Internal Knowledge base** for: `[country] FCV fragility conflict risk [sector]` — to find CPFs, CLRs, ABPEs, PADs, ICRs, IEG reports, and other operational documents referencing FCV conditions.
+2. Search **Projects** for: `[country] [sector] active portfolio` — to identify active lending operations, retrieve project objectives from PADs, and check ISRs and Aide Memoires for flagged implementation issues. Also look for Restructuring Documents that may indicate prior FCV-related project adjustments.
+
+**External sources second:**
+
+3. Use **web search** following this source preference order. Prefer higher-ranked sources; use lower-ranked ones only when higher-ranked sources are unavailable or insufficient. Also search for sector-specific conditions as relevant (WASH, IPC food security, Education Cluster, Health Cluster).
+
+   1. **ICG / CrisisWatch** — International Crisis Group conflict analysis and monthly risk ratings
+   2. **Multilateral or UN sources** — OCHA, UNHCR, WFP, UNICEF, OHCHR, World Bank, UNDP, IOM DTM, IDMC
+   3. **Reputable national or regional outlets** from the country — for ground-level reporting and local context
+   4. **Reputable international wires or broadcasters** — Reuters, AP, BBC, Al Jazeera, VOA
+
+Note any source gaps explicitly in the output.
+
+---
+
+## Step 3: Produce the Briefing
+
+Output the briefing in exactly four sections below. Target **650–850 words** total (excluding headers). Use bullet points throughout; avoid prose paragraphs.
+
+At the top of the briefing, include a one-line header:
+
+> **FCV Risk Briefing | [Country] — [Sector] Sector | [Month Year]**
+
+If any finding warrants immediate task team attention, add a bold **⚠ Escalation Flag** line immediately below the header before Section 1.
+
+---
+
+### Section 1 — FCV Risk Summary (Last 3 Months)
+
+Provide **4–6 bullets** on the most significant FCV developments. Each bullet must include:
+- **What** happened (1–2 sentences)
+- **Where** (region or sub-national area if available; national if not)
+- **Source + approximate date** (e.g. *OCHA Situation Report, Apr 2025*)
+
+If a specific source is unavailable, note: *[Source not located — based on [alternative or general context]]*
+
+Cover at minimum: armed conflict or security incidents, displacement trends, governance or access constraints, and any humanitarian triggers relevant to the sector.
+
+---
+
+### Section 2 — Portfolio Exposure Analysis
+
+Draw on PADs (Project Appraisal Documents) for project objectives, ISRs (Implementation Status and Results Reports) for current implementation status, Aide Memoires for recent supervision findings, and Restructuring Documents for any prior FCV-related adjustments. Reference IEG Reports and ICRs (Implementation Completion and Results Reports) for lessons from closed operations where relevant. For country-level strategic context, reference the CPF (Country Partnership Framework), CLR (Completion and Learning Review), and ABPE (Annual Bank Portfolio Exercise) where available.
+
+For each active World Bank project in the specified sector and country, provide:
+
+**[Project Name] — [Project ID]**
+- *Objective:* One sentence (from PAD)
+- *Current status:* One sentence (from most recent ISR or Aide Memoire)
+- *FCV risks to implementation:* Bullet the specific risks (e.g. site access, contractor safety, supply chain disruption, community tensions, staff security, counterpart capacity)
+- *Overall risk level:* **Low / Medium / High** *(with one-sentence rationale)*
+
+If no specific project is identified through internal search, note this explicitly and describe the likely risk profile for a typical project of that type in the country context.
+
+---
+
+### Section 3 — Potential Impacts on Delivery
+
+Describe **3–5 concrete impacts** the identified risks could have on project delivery, disbursement, or outcomes. For each:
+- Name the impact (bold)
+- Link it explicitly to a risk from Section 1 (e.g. *"Linked to: armed incidents in northern [Region]"*)
+- Specify which project or project type is affected
+
+Examples of impact types: implementation delays, cost escalation, contractor withdrawal, supervision gaps, community engagement breakdown, disbursement slowdown, fiduciary risk.
+
+---
+
+### Section 4 — Recommended Actions
+
+Suggest **2–3 specific, practical actions** the task team could take within the next 30–60 days. Each action should:
+- Be actionable (not generic advice)
+- Name the responsible party where possible (e.g. task team leader, security focal point, government counterpart)
+- Reference the specific risk it addresses
+
+Examples: trigger the project's contingency plan, request a security assessment from the WBG Security Unit, convene a virtual supervision mission, engage the relevant UN cluster, adjust implementation modality to remote supervision, document force majeure conditions, flag in the next ISR update, or initiate a Restructuring if scope adjustments are needed.
+
+---
+
+**Do not fabricate sources or project details.** If data is unavailable for a specific area or time period, state this clearly: *"No recent [source type] located for [area/period]."* If a project document is not retrievable through mAI's internal search, note this rather than inferring content.</pre>
+          </div>
         </div>
         <div class="tip">
           <div class="tip-icon">&#9432;</div>
-          <div class="tip-text"><strong>Other things worth trying:</strong> define your time frame ("in the last 6 months"), name your audience ("for a senior leadership briefing"), specify a format ("as a bullet-point summary with 3–5 key findings"), or clarify what your topic actually covers.</div>
+          <div class="tip-text"><strong>What changed:</strong> exact WBG documents are mentioned, sources are ranked by credibility, the output has 4 structured sections, and each impact is explicitly linked to a risk, etc.</div>
         </div>
-        <p class="section-label">What did you change, and why?</p>
-        <textarea class="notes-area" placeholder="Describe the specific problem you tried to fix."></textarea>
-        <p class="section-label">Did it help? What still needs work?</p>
-        <textarea class="notes-area" placeholder="What got better? What's still missing?"></textarea>
-        <p class="section-label">Keep going — try at least one more refinement and note what happened</p>
-        <textarea class="notes-area" placeholder="What else did you try? What changed?"></textarea>
-        <div class="divider"></div>
-        <p class="instruction">Once you're happy, write out your final refined prompt and run it. Compare the result to your step 1 output.</p>
-        <p class="section-label">Your final prompt</p>
-        <textarea class="notes-area tall" placeholder="Write out your final refined prompt here."></textarea>
-        <p class="section-label">What changed most from step 1 to now?</p>
-        <textarea class="notes-area" placeholder="Summarise the key improvements across all rounds."></textarea>
-        <button class="done-btn" onclick="completedStep(3,4,75)">Mark complete &rarr;</button>
-      </div>
+        <button class="done-btn" onclick="completedStep(3,4)">Mark complete &rarr;</button>
     </div>
   </div>
 
-  <!-- Step 4: Skill resource -->
-  <div class="step is-bonus" id="step4">
+  <!-- Step 4: Save as skill -->
+  <div class="step" id="step4">
     <div class="step-header" onclick="toggleStep(4)">
-      <div class="step-num bonus" id="num4">+</div>
-      <div class="step-title muted" id="title4">Take it further — install the FCV Prompt Refiner skill</div>
-      <span class="step-tag tag-resource">Resource</span>
+      <div class="step-num todo" id="num4">4</div>
+      <div class="step-title" id="title4">Save it as a reusable skill</div>
+      <span class="step-tag tag-refine">Skill</span>
       <svg class="chevron" id="chev4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,6 8,10 12,6"/></svg>
     </div>
     <div class="step-body" id="body4">
-      <div id="s4locked"><p class="locked-msg">Complete step 3 to unlock this resource.</p></div>
-      <div id="s4content" style="display:none">
-        <p class="skill-intro">Everything you just did manually — diagnosing gaps, asking clarifying questions, tightening scope and format — can be automated using a custom Mai skill. The <strong>FCV Prompt Refiner</strong> skill walks Mai through the same structured process every time, so you don't have to think through it from scratch.</p>
-        <p class="skill-intro">Install it by going to <strong>Settings &rarr; Skills</strong> in Mai and creating a new skill. Copy and paste each section below into the corresponding field.</p>
+        <p class="instruction">You can save the prompt from step 3 as a Mai skill so you never have to paste it again. In the same Mai conversation from step 3, paste this:</p>
 
-        <div class="skill-steps">
-          <div class="skill-step">
-            <div class="skill-step-num">1</div>
-            <div class="skill-step-text">Open <strong>Settings &rarr; Skills</strong> in Mai and create a new skill.</div>
-          </div>
-          <div class="skill-step">
-            <div class="skill-step-num">2</div>
-            <div class="skill-step-text">Copy and paste each section below into the corresponding field.</div>
-          </div>
-          <div class="skill-step">
-            <div class="skill-step-num">3</div>
-            <div class="skill-step-text">Save, then try it with your rough prompt from step 1 — see how it compares to what you did by hand.</div>
-          </div>
+        <div class="prompt-display">
+          <span id="raw4">Save this as a Mai skill called "country-sector-fcv-risk-briefing". I want to be able to trigger it by typing "run country-sector-fcv-risk-briefing for [country] [sector]" in any new conversation.</span>
+          <button class="copy-btn" onclick="copyById('raw4',this)">Copy</button>
         </div>
 
-        <div class="divider"></div>
-
-        <!-- Name -->
-        <div class="skill-accordion">
-          <div class="skill-acc-header" onclick="toggleAcc(this)">
-            <div class="skill-acc-left">
-              <span class="skill-acc-label">Name</span>
-              <span class="skill-acc-hint">Paste into the skill name field</span>
-            </div>
-            <svg class="skill-chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,6 8,10 12,6"/></svg>
-          </div>
-          <div class="skill-acc-body">
-            <textarea class="skill-textarea sm" id="sName" readonly>fcv-prompt-refiner</textarea>
-            <button class="skill-copy-btn" onclick="copyTextarea('sName',this)">Copy name</button>
-          </div>
+        <div class="tip">
+          <div class="tip-icon">&#9432;</div>
+          <div class="tip-text"><strong>Using it later:</strong> open any new Mai conversation and type <strong>"run country-sector-fcv-risk-briefing for Somalia education"</strong> or any other country and sector — Mai will run the full structured briefing automatically. You can reuse it as many times as you like.</div>
         </div>
-
-        <!-- Description -->
-        <div class="skill-accordion">
-          <div class="skill-acc-header" onclick="toggleAcc(this)">
-            <div class="skill-acc-left">
-              <span class="skill-acc-label">Description</span>
-              <span class="skill-acc-hint">Paste into the skill description field</span>
-            </div>
-            <svg class="skill-chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,6 8,10 12,6"/></svg>
-          </div>
-          <div class="skill-acc-body">
-            <textarea class="skill-textarea md" id="sDesc" readonly>Clarify and refine an initial user prompt or request to ensure full understanding before execution. Use this skill whenever a user provides a vague, partial, or preliminary request and needs help making it more specific, complete, or actionable. Triggers on phrases like "refine this prompt", "help me clarify what I want", "improve my request", "make this more specific", or when a user seems uncertain about what they're asking for and wants structured guidance on framing their request.</textarea>
-            <button class="skill-copy-btn" onclick="copyTextarea('sDesc',this)">Copy description</button>
-          </div>
-        </div>
-
-        <!-- Content -->
-        <div class="skill-accordion">
-          <div class="skill-acc-header" onclick="toggleAcc(this)">
-            <div class="skill-acc-left">
-              <span class="skill-acc-label">Content</span>
-              <span class="skill-acc-hint">Paste into the skill content field — this is the main instruction set</span>
-            </div>
-            <svg class="skill-chev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,6 8,10 12,6"/></svg>
-          </div>
-          <div class="skill-acc-body">
-            <textarea class="skill-textarea lg" id="sContent" readonly># FCV Prompt Refiner
-
-Guides users through a structured dialogue to clarify and refine their prompt or request, then generates an improved, actionable version.
-
----
-
-## Guardrails
-
-- **Limit to 6 questions maximum:** Ask targeted, open-ended questions that reveal constraints, desired output format, audience, and success criteria—not clarifying questions about basic definitions or prior context.
-- **Avoid redundancy:** Do not ask the same question twice or ask overlapping questions that can be combined.
-- **Focus on actionability:** Prioritize questions that make the prompt more specific, not questions that require external research or expert knowledge.
-- **Respect user expertise:** Assume the user has domain knowledge; ask about their framing and priorities, not about definitions or background facts.
-
----
-
-## Step 1: Capture the Initial Prompt
-
-Ask the user: "What's the prompt or request you'd like to refine?"
-
-Capture their response exactly as stated. Do not paraphrase or reinterpret yet.
-
----
-
-## Step 2: Diagnostic Assessment
-
-Quickly scan the initial prompt for:
-
-- **Clarity:** Is the end goal explicit or implicit?
-- **Scope:** Are boundaries defined (country, timeframe, sector)?
-- **Output format:** Is the desired format specified (prose, table, briefing, list)?
-- **Audience:** Is the intended reader or user clear?
-- **Success criteria:** Are there measurable or qualitative success indicators?
-
-Identify **2–3 key gaps** that, if filled, would make the prompt more actionable.
-
----
-
-## Step 3: Ask Up to 6 Clarifying Questions
-
-Based on the diagnostic, ask **targeted follow-up questions.** Keep questions concise and open-ended. Do not ask yes/no questions; invite explanation.
-
-**Question categories to prioritize (select up to 6):**
-
-| Priority | Question Type | Example | When to use |
-|---|---|---|---|
-| **Critical** | **End goal / success criterion** | "What will 'done' look like for you? How will you know this request has been fulfilled?" | Always—if unclear. |
-| **Critical** | **Scope / boundaries** | "Are there specific countries, sectors, timeframes, or project types you want to focus on, or should this be comprehensive?" | If scope is vague. |
-| **High** | **Output format** | "How do you plan to use this output? (e.g., for a meeting brief, a written report, a data table, a decision memo) And what length / level of detail?" | If format is unspecified. |
-| **High** | **Constraints / assumptions** | "Are there any constraints I should know about? (e.g., need it urgently, avoid certain topics, work within a specific methodology)" | If the request seems open-ended. |
-| **Medium** | **Audience / tone** | "Who's the primary reader for this, and what's their background? (e.g., technical specialist, senior leadership, peer analyst)" | If audience/tone could vary. |
-| **Medium** | **Supporting inputs** | "Do you have existing analysis, data, or documents you want me to build on, or should I start from scratch?" | If it's unclear whether existing work should be leveraged. |
-| **Low** | **Priority / trade-offs** | "If you had to prioritize between comprehensiveness and speed, which matters more?" | If the request could expand infinitely. |
-
-**Guidance:** Ask the **critical** questions first. Then pick 2–4 additional questions from **High/Medium** based on the initial prompt's weaknesses. Stop at 6 total.
-
----
-
-## Step 4: Synthesize Responses
-
-After collecting answers:
-
-1. Restate back to the user what you understood (1–2 sentences)
-2. Identify any remaining ambiguities or trade-offs
-3. Propose refinements to make the request clearer
-
----
-
-## Step 5: Generate Refined Prompt
-
-Write a **refined, reusable prompt** that incorporates the user's clarifications. The refined prompt should:
-
-- **Be specific:** Name countries, timeframes, sectors, or other bounds explicitly
-- **Specify output format:** Describe what "done" looks like (e.g., "a 500-word briefing with 3 tables")
-- **Include success criteria:** State how the user will evaluate completion
-- **State assumed constraints:** List audience, tone, or methodological choices
-- **Be actionable:** A colleague could read this and execute it without asking follow-up questions
-
-**Format:** Present the refined prompt as a standalone block (markdown code fence or quoted text), ready to copy and reuse.
-
----
-
-## Step 6: Offer Iteration
-
-Ask: "Does this refined prompt capture what you're looking for? Any adjustments before we proceed?"
-
-If the user wants to adjust, incorporate their feedback and re-present the refined prompt. Limit iterations to **one or two rounds**; if significant rework is needed, suggest starting over with fresh questions.
-
----
-
-## Step 7: Activate or Conclude
-
-Once the user confirms the refined prompt:
-
-- **Option A:** Ask "Would you like me to proceed with this request now?" (activate the relevant skill or execute the refined prompt)
-- **Option B:** Offer the refined prompt as a reusable template the user can save or pass to others
-
----
-
-## Quality Checklist (self-review before returning refined prompt)
-
-- [ ] All 2–3 identified gaps from diagnostic addressed in questions or refined prompt
-- [ ] Refined prompt is specific (not vague or generic)
-- [ ] Output format explicitly stated
-- [ ] Success criteria or acceptance condition clear
-- [ ] Scope and boundaries defined
-- [ ] Audience or tone specified
-- [ ] Refined prompt is ~150–300 words (complete but concise)
-- [ ] Refined prompt could be executed by another analyst without follow-up
-
----
-
-## AI Disclaimer
-
-*This skill helps structure and clarify user requests but does not execute the actual task. The quality of the refined prompt depends on the depth and honesty of the user's responses. After refining, always sense-check the refined prompt against your actual needs before proceeding.*</textarea>
-            <button class="skill-copy-btn" onclick="copyTextarea('sContent',this)">Copy content</button>
-          </div>
-        </div>
-
-        <div class="divider"></div>
-
-        <p class="instruction">Once installed, try the skill with your original rough prompt from step 1 and see how it handles the refinement process compared to what you did manually.</p>
 
         <div class="compare-box">
-          <p><strong>Something to reflect on:</strong> The skill is doing exactly what you just did in steps 1–3 — diagnosing gaps, asking questions, tightening the output. The difference is it does it systematically every time. Having done it by hand first makes you a much better judge of whether the skill is doing its job well.</p>
+          <p><strong>What you've built:</strong> a repeatable workflow that takes one line to run. That's the difference between a prompt you used once and a tool you actually use.</p>
         </div>
 
-        <p class="section-label">How did the skill compare to your manual approach?</p>
-        <textarea class="notes-area" placeholder="What did the skill catch that you missed? What did you catch that it missed?"></textarea>
-        <button class="done-btn" onclick="completedStep(4,null,100)">Finish workshop &#10003;</button>
-      </div>
+        <button class="done-btn" onclick="completedStep(4,null)">Finish workshop &#10003;</button>
     </div>
   </div>
 
@@ -532,35 +424,6 @@ Once the user confirms the refined prompt:
     }
   }
 
-  function buildWorksheet() {
-    var country = document.getElementById('countryInput').value.trim();
-    var topic = document.getElementById('topicInput').value.trim();
-    var ci = document.getElementById('countryInput');
-    var ti = document.getElementById('topicInput');
-    ci.classList.remove('error'); ti.classList.remove('error');
-    if (!country) ci.classList.add('error');
-    if (!topic) ti.classList.add('error');
-    if (!country || !topic) return;
-    var r1 = document.getElementById('raw1');
-    r1.textContent = 'give me recent ' + topic + ' news for ' + country;
-    r1.className = '';
-    ci.disabled = true; ti.disabled = true;
-    document.getElementById('setupActions').innerHTML = '<span class="ready-badge">&#10003;&nbsp; Worksheet ready</span>';
-    unlock(1); openStep(1);
-  }
-
-  function unlock(n) {
-    var locked = document.getElementById('s'+n+'locked');
-    var content = document.getElementById('s'+n+'content');
-    var num = document.getElementById('num'+n);
-    var title = document.getElementById('title'+n);
-    if (locked) locked.style.display = 'none';
-    if (content) content.style.display = 'block';
-    num.className = n === 4 ? 'step-num bonus' : 'step-num active';
-    title.className = 'step-title';
-    document.getElementById('step'+n).className = n === 4 ? 'step is-bonus' : 'step is-active';
-  }
-
   function toggleStep(n) {
     var body = document.getElementById('body'+n);
     var chev = document.getElementById('chev'+n);
@@ -577,12 +440,17 @@ Once the user confirms the refined prompt:
     }, 120);
   }
 
-  function completedStep(current, next, pct) {
+  function completedStep(current, next) {
     var num = document.getElementById('num'+current);
     num.className = 'step-num done';
     num.innerHTML = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2"><polyline points="2,6 5,9 10,3"/></svg>';
     document.getElementById('step'+current).className = 'step is-done';
-    if (next) { unlock(next); openStep(next); }
+    if (next) {
+      var nextNum = document.getElementById('num'+next);
+      nextNum.className = 'step-num active';
+      document.getElementById('step'+next).className = 'step is-active';
+      openStep(next);
+    }
   }
 
   function toggleCheck(li) { li.querySelector('.cb-box').classList.toggle('checked'); }
@@ -609,7 +477,7 @@ Once the user confirms the refined prompt:
     setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1800);
   }
 
-  function copyById(id, btn) { doCopy(document.getElementById(id).textContent.trim(), btn); }
+  function copyById(id, btn) { doCopy((document.getElementById(id).innerText || document.getElementById(id).textContent).trim(), btn); }
   function copyTextarea(id, btn) { doCopy(document.getElementById(id).value.trim(), btn); }
 </script>
 </body>

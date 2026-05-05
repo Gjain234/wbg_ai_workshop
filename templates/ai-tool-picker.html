@@ -175,148 +175,169 @@ h1 { font-size: 30px; font-weight: 600; color: var(--text-primary); line-height:
 
   <div class="tabs">
     <button class="tab active" onclick="showPanel('map', this)">Decision map</button>
-    <button class="tab" onclick="showPanel('quiz', this)">Quick quiz</button>
+    <button class="tab" onclick="showPanel('quiz', this)">Not sure? Take the quiz</button>
   </div>
 
   <!-- ═══════════════ MAP PANEL ═══════════════ -->
   <div class="panel active" id="panel-map">
     <div class="chart-wrap">
-      <svg width="100%" viewBox="0 0 1060 440" xmlns="http://www.w3.org/2000/svg">
+      <svg width="100%" viewBox="0 0 1060 492" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
             <path d="M2 2L8 5L2 8" fill="none" stroke="#C8C5BC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </marker>
         </defs>
 
-        <!-- ── ROOT: Public or private? centre x=530 ── -->
-        <rect x="355" y="16" width="350" height="44" rx="22" fill="#F0EFEB" stroke="#C8C5BC" stroke-width="1.5"/>
-        <text x="530" y="43" text-anchor="middle" font-family="'Sora',sans-serif" font-size="14" font-weight="600" fill="#1C1B18">Public or private / internal data?</text>
+        <!-- ── ROOT: Public or Confidential? ── -->
+        <rect x="330" y="16" width="400" height="44" rx="22" fill="#F0EFEB" stroke="#C8C5BC" stroke-width="1.5"/>
+        <text x="530" y="43" text-anchor="middle" font-family="'Sora',sans-serif" font-size="14" font-weight="600" fill="#1C1B18">Public or Confidential/Official Use Only data?</text>
 
-        <!-- root → public -->
-        <line x1="440" y1="60" x2="270" y2="112" stroke="#C8C5BC" stroke-width="1.5" marker-end="url(#a)"/>
-        <rect x="310" y="70" width="54" height="20" rx="10" fill="white" stroke="#C8C5BC" stroke-width="1"/>
-        <text x="337" y="84" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="500" fill="#888780">Public</text>
+        <!-- pub/conf → public -->
+        <line x1="440" y1="60" x2="230" y2="119" stroke="#C8C5BC" stroke-width="1.5" marker-end="url(#a)"/>
+        <rect x="298" y="70" width="58" height="20" rx="10" fill="white" stroke="#C8C5BC" stroke-width="1"/>
+        <text x="327" y="84" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="500" fill="#888780">Public</text>
 
-        <!-- root → private -->
-        <line x1="620" y1="60" x2="790" y2="112" stroke="#C8C5BC" stroke-width="1.5" marker-end="url(#a)"/>
-        <rect x="680" y="70" width="54" height="20" rx="10" fill="white" stroke="#C8C5BC" stroke-width="1"/>
-        <text x="707" y="84" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="500" fill="#888780">Private</text>
+        <!-- pub/conf → confidential -->
+        <line x1="620" y1="60" x2="790" y2="119" stroke="#C8C5BC" stroke-width="1.5" marker-end="url(#a)"/>
+        <rect x="656" y="70" width="94" height="20" rx="10" fill="white" stroke="#C8C5BC" stroke-width="1"/>
+        <text x="703" y="84" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" font-weight="500" fill="#888780">Confidential/OUO</text>
 
         <!-- column labels -->
-        <text x="240" y="108" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" font-weight="600" fill="#C8C5BC" letter-spacing="0.08em">PUBLIC</text>
-        <text x="810" y="108" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" font-weight="600" fill="#C8C5BC" letter-spacing="0.08em">PRIVATE / INTERNAL</text>
+        <text x="230" y="108" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" font-weight="600" fill="#C8C5BC" letter-spacing="0.08em">PUBLIC</text>
+        <text x="820" y="100" text-anchor="middle" font-family="'Sora',sans-serif" font-size="9" font-weight="600" fill="#C8C5BC" letter-spacing="0.07em">CONFIDENTIAL /</text>
+        <text x="820" y="112" text-anchor="middle" font-family="'Sora',sans-serif" font-size="9" font-weight="600" fill="#C8C5BC" letter-spacing="0.07em">OFFICIAL USE ONLY</text>
 
         <!-- divider -->
-        <line x1="530" y1="60" x2="530" y2="430" stroke="#E0DED8" stroke-width="1" stroke-dasharray="5 5"/>
+        <line x1="530" y1="60" x2="530" y2="484" stroke="#E0DED8" stroke-width="1" stroke-dasharray="5 5"/>
 
         <!-- ══ PUBLIC SIDE ══ -->
-        <!-- Q: Want internet? x=120..360, centre=240 -->
+        <!-- Q: Want internet? centre=240 -->
         <rect x="110" y="120" width="260" height="44" rx="8" fill="#E6F1FB" stroke="#85B7EB" stroke-width="1.5"/>
         <text x="240" y="139" text-anchor="middle" font-family="'Sora',sans-serif" font-size="12" font-weight="600" fill="#0C447C">Want internet access?</text>
         <text x="240" y="155" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" fill="#378ADD">(to search live sources)</text>
 
-        <!-- public yes internet → left -->
-        <line x1="180" y1="164" x2="130" y2="212" stroke="#C8C5BC" stroke-width="1.5" marker-end="url(#a)"/>
-        <rect x="118" y="175" width="32" height="18" rx="9" fill="white" stroke="#C8C5BC" stroke-width="1"/>
-        <text x="134" y="188" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" font-weight="500" fill="#888780">Yes</text>
+        <!-- public yes internet → Paid account? -->
+        <line x1="178" y1="164" x2="128" y2="219" stroke="#C8C5BC" stroke-width="1.5" marker-end="url(#a)"/>
+        <rect x="112" y="178" width="32" height="18" rx="9" fill="white" stroke="#C8C5BC" stroke-width="1"/>
+        <text x="128" y="191" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" font-weight="500" fill="#888780">Yes</text>
 
-        <!-- public no internet → right -->
-        <line x1="300" y1="164" x2="346" y2="212" stroke="#C8C5BC" stroke-width="1.5" marker-end="url(#a)"/>
-        <rect x="310" y="175" width="28" height="18" rx="9" fill="white" stroke="#C8C5BC" stroke-width="1"/>
-        <text x="324" y="188" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" font-weight="500" fill="#888780">No</text>
+        <!-- public no internet → NotebookLM -->
+        <line x1="302" y1="164" x2="368" y2="219" stroke="#C8C5BC" stroke-width="1.5" marker-end="url(#a)"/>
+        <rect x="310" y="178" width="28" height="18" rx="9" fill="white" stroke="#C8C5BC" stroke-width="1"/>
+        <text x="324" y="191" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" font-weight="500" fill="#888780">No</text>
 
-        <!-- public, yes internet: Q repeated task? centre=100 -->
-        <rect x="30" y="220" width="200" height="44" rx="8" fill="#E6F1FB" stroke="#85B7EB" stroke-width="1.5"/>
-        <text x="130" y="239" text-anchor="middle" font-family="'Sora',sans-serif" font-size="12" font-weight="600" fill="#0C447C">One-off or repeated</text>
-        <text x="130" y="255" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" fill="#378ADD">task / workflow?</text>
+        <!-- public, yes internet: Q Paid Claude/GPT? centre=145 -->
+        <rect x="30" y="220" width="230" height="44" rx="8" fill="#E6F1FB" stroke="#85B7EB" stroke-width="1.5"/>
+        <text x="145" y="239" text-anchor="middle" font-family="'Sora',sans-serif" font-size="12" font-weight="600" fill="#0C447C">Paid Claude or ChatGPT</text>
+        <text x="145" y="255" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" fill="#378ADD">subscription?</text>
 
-        <!-- public yes internet, repeated → Claude -->
-        <line x1="80" y1="264" x2="60" y2="310" stroke="#C8C5BC" stroke-width="1.5" marker-end="url(#a)"/>
-        <rect x="34" y="274" width="54" height="18" rx="9" fill="white" stroke="#C8C5BC" stroke-width="1"/>
-        <text x="61" y="287" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" font-weight="500" fill="#888780">Repeated</text>
+        <!-- paid yes → one-off/repeated? -->
+        <line x1="88" y1="264" x2="86" y2="319" stroke="#C8C5BC" stroke-width="1.5" marker-end="url(#a)"/>
+        <rect x="66" y="278" width="32" height="18" rx="9" fill="white" stroke="#C8C5BC" stroke-width="1"/>
+        <text x="82" y="291" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" font-weight="500" fill="#888780">Yes</text>
 
-        <!-- public yes internet, one-off → ChatGPT -->
-        <line x1="180" y1="264" x2="198" y2="310" stroke="#C8C5BC" stroke-width="1.5" marker-end="url(#a)"/>
-        <rect x="162" y="274" width="44" height="18" rx="9" fill="white" stroke="#C8C5BC" stroke-width="1"/>
-        <text x="184" y="287" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" font-weight="500" fill="#888780">One-off</text>
+        <!-- paid no → Gemini free -->
+        <line x1="202" y1="264" x2="242" y2="319" stroke="#C8C5BC" stroke-width="1.5" marker-end="url(#a)"/>
+        <rect x="196" y="278" width="28" height="18" rx="9" fill="white" stroke="#C8C5BC" stroke-width="1"/>
+        <text x="210" y="291" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" font-weight="500" fill="#888780">No</text>
 
-        <!-- RESULT: Claude (public, internet, repeated) -->
-        <rect x="20" y="318" width="80" height="56" rx="10" fill="#FFF3E0" stroke="#FFA726" stroke-width="2"/>
-        <text x="60" y="344" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="600" fill="#4E2600">🧡</text>
-        <text x="60" y="362" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="600" fill="#E65100">Claude</text>
+        <!-- public, paid yes: Q one-off or repeated? centre=119 -->
+        <rect x="24" y="320" width="190" height="44" rx="8" fill="#E6F1FB" stroke="#85B7EB" stroke-width="1.5"/>
+        <text x="119" y="339" text-anchor="middle" font-family="'Sora',sans-serif" font-size="12" font-weight="600" fill="#0C447C">One-off or repeated</text>
+        <text x="119" y="355" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" fill="#378ADD">task / workflow?</text>
 
-        <!-- RESULT: ChatGPT (public, internet, one-off) -->
-        <rect x="158" y="318" width="80" height="56" rx="10" fill="#E8F5E9" stroke="#66BB6A" stroke-width="2"/>
-        <text x="198" y="344" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="600" fill="#1B5E20">🟢</text>
-        <text x="198" y="362" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="600" fill="#2E7D32">ChatGPT</text>
+        <!-- repeated → Claude -->
+        <line x1="72" y1="364" x2="58" y2="415" stroke="#C8C5BC" stroke-width="1.5" marker-end="url(#a)"/>
+        <rect x="28" y="378" width="54" height="18" rx="9" fill="white" stroke="#C8C5BC" stroke-width="1"/>
+        <text x="55" y="391" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" font-weight="500" fill="#888780">Repeated</text>
+
+        <!-- one-off → ChatGPT -->
+        <line x1="154" y1="364" x2="154" y2="415" stroke="#C8C5BC" stroke-width="1.5" marker-end="url(#a)"/>
+        <rect x="132" y="378" width="44" height="18" rx="9" fill="white" stroke="#C8C5BC" stroke-width="1"/>
+        <text x="154" y="391" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" font-weight="500" fill="#888780">One-off</text>
+
+        <!-- RESULT: Claude (public, paid, repeated) -->
+        <rect x="22" y="416" width="76" height="56" rx="10" fill="#FFF3E0" stroke="#FFA726" stroke-width="2"/>
+        <text x="60" y="442" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="600" fill="#4E2600">🧡</text>
+        <text x="60" y="460" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="600" fill="#E65100">Claude</text>
+
+        <!-- RESULT: ChatGPT (public, paid, one-off) -->
+        <rect x="108" y="416" width="80" height="56" rx="10" fill="#E8F5E9" stroke="#66BB6A" stroke-width="2"/>
+        <text x="148" y="442" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="600" fill="#1B5E20">🟢</text>
+        <text x="148" y="460" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="600" fill="#2E7D32">ChatGPT</text>
+
+        <!-- RESULT: Gemini free (public, no paid account) -->
+        <rect x="224" y="320" width="78" height="56" rx="10" fill="#FCE4EC" stroke="#EC407A" stroke-width="2"/>
+        <text x="263" y="346" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="600" fill="#4A0020">🔴</text>
+        <text x="263" y="364" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="600" fill="#880E4F">Gemini</text>
 
         <!-- public, no internet → NotebookLM directly -->
-        <rect x="318" y="220" width="180" height="56" rx="10" fill="#EDE7F6" stroke="#7E57C2" stroke-width="2"/>
-        <text x="408" y="246" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="600" fill="#1A0047">📓</text>
-        <text x="408" y="263" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="600" fill="#4527A0">Gemini NotebookLM</text>
+        <rect x="316" y="220" width="182" height="56" rx="10" fill="#EDE7F6" stroke="#7E57C2" stroke-width="2"/>
+        <text x="407" y="246" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="600" fill="#1A0047">📓</text>
+        <text x="407" y="263" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="600" fill="#4527A0">Gemini NotebookLM</text>
 
-        <!-- ══ PRIVATE SIDE ══ -->
+        <!-- ══ CONFIDENTIAL SIDE ══ -->
         <!-- Q: Want internet? centre=790 -->
         <rect x="660" y="120" width="260" height="44" rx="8" fill="#E6F1FB" stroke="#85B7EB" stroke-width="1.5"/>
         <text x="790" y="139" text-anchor="middle" font-family="'Sora',sans-serif" font-size="12" font-weight="600" fill="#0C447C">Want internet access?</text>
         <text x="790" y="155" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" fill="#378ADD">(to search live sources)</text>
 
-        <!-- private yes internet → left -->
+        <!-- conf yes internet → left -->
         <line x1="730" y1="164" x2="684" y2="212" stroke="#C8C5BC" stroke-width="1.5" marker-end="url(#a)"/>
         <rect x="672" y="175" width="32" height="18" rx="9" fill="white" stroke="#C8C5BC" stroke-width="1"/>
         <text x="688" y="188" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" font-weight="500" fill="#888780">Yes</text>
 
-        <!-- private no internet → right -->
+        <!-- conf no internet → right -->
         <line x1="850" y1="164" x2="896" y2="212" stroke="#C8C5BC" stroke-width="1.5" marker-end="url(#a)"/>
         <rect x="858" y="175" width="28" height="18" rx="9" fill="white" stroke="#C8C5BC" stroke-width="1"/>
         <text x="872" y="188" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" font-weight="500" fill="#888780">No</text>
 
-        <!-- private, yes internet: Q repeated? centre=654 -->
+        <!-- conf, yes internet: Q repeated? centre=654 -->
         <rect x="554" y="220" width="200" height="44" rx="8" fill="#E6F1FB" stroke="#85B7EB" stroke-width="1.5"/>
         <text x="654" y="239" text-anchor="middle" font-family="'Sora',sans-serif" font-size="12" font-weight="600" fill="#0C447C">One-off or repeated</text>
         <text x="654" y="255" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" fill="#378ADD">task / workflow?</text>
 
-        <!-- private yes internet repeated → Mai -->
+        <!-- conf yes internet repeated → Mai -->
         <line x1="600" y1="264" x2="576" y2="310" stroke="#C8C5BC" stroke-width="1.5" marker-end="url(#a)"/>
         <rect x="558" y="274" width="54" height="18" rx="9" fill="white" stroke="#C8C5BC" stroke-width="1"/>
         <text x="585" y="287" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" font-weight="500" fill="#888780">Repeated</text>
 
-        <!-- private yes internet one-off → Gemini deep research -->
+        <!-- conf yes internet one-off → Gemini -->
         <line x1="708" y1="264" x2="728" y2="310" stroke="#C8C5BC" stroke-width="1.5" marker-end="url(#a)"/>
         <rect x="690" y="274" width="44" height="18" rx="9" fill="white" stroke="#C8C5BC" stroke-width="1"/>
         <text x="712" y="287" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" font-weight="500" fill="#888780">One-off</text>
 
-        <!-- RESULT: Mai (private, internet, repeated) -->
+        <!-- RESULT: Mai (conf, internet, repeated) -->
         <rect x="540" y="318" width="72" height="56" rx="10" fill="#E3F2FD" stroke="#42A5F5" stroke-width="2"/>
         <text x="576" y="344" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="600" fill="#0D2B5E">🔵</text>
         <text x="576" y="362" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="600" fill="#1565C0">Mai</text>
 
-        <!-- RESULT: Gemini deep research (private, internet, one-off) -->
+        <!-- RESULT: Gemini (conf, internet, one-off) -->
         <rect x="680" y="318" width="96" height="56" rx="10" fill="#FCE4EC" stroke="#EC407A" stroke-width="2"/>
         <text x="728" y="344" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="600" fill="#4A0020">🔴</text>
-        <text x="728" y="362" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="600" fill="#880E4F">Gemini research</text>
+        <text x="728" y="362" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="600" fill="#880E4F">Gemini</text>
 
-        <!-- private, no internet: Q docs downloaded? centre=920 -->
+        <!-- conf, no internet: Q docs downloaded? centre=930 -->
         <rect x="820" y="220" width="220" height="44" rx="8" fill="#E6F1FB" stroke="#85B7EB" stroke-width="1.5"/>
         <text x="930" y="239" text-anchor="middle" font-family="'Sora',sans-serif" font-size="12" font-weight="600" fill="#0C447C">Docs already</text>
         <text x="930" y="255" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" fill="#378ADD">downloaded?</text>
 
-        <!-- private, no internet, yes downloaded → NotebookLM -->
+        <!-- conf, no internet, yes downloaded → NotebookLM -->
         <line x1="880" y1="264" x2="856" y2="310" stroke="#C8C5BC" stroke-width="1.5" marker-end="url(#a)"/>
         <rect x="840" y="274" width="32" height="18" rx="9" fill="white" stroke="#C8C5BC" stroke-width="1"/>
         <text x="856" y="287" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" font-weight="500" fill="#888780">Yes</text>
 
-        <!-- private, no internet, not downloaded → Mai -->
+        <!-- conf, no internet, not downloaded → Mai -->
         <line x1="980" y1="264" x2="998" y2="310" stroke="#C8C5BC" stroke-width="1.5" marker-end="url(#a)"/>
         <rect x="968" y="274" width="28" height="18" rx="9" fill="white" stroke="#C8C5BC" stroke-width="1"/>
         <text x="982" y="287" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" font-weight="500" fill="#888780">No</text>
 
-        <!-- RESULT: NotebookLM (private, no internet, downloaded) -->
+        <!-- RESULT: NotebookLM (conf, no internet, downloaded) -->
         <rect x="800" y="318" width="110" height="56" rx="10" fill="#EDE7F6" stroke="#7E57C2" stroke-width="2"/>
         <text x="855" y="344" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="600" fill="#1A0047">📓</text>
         <text x="855" y="362" text-anchor="middle" font-family="'Sora',sans-serif" font-size="10" font-weight="600" fill="#4527A0">Gemini NotebookLM</text>
 
-        <!-- RESULT: Mai (private, no internet, not downloaded) -->
+        <!-- RESULT: Mai (conf, no internet, not downloaded) -->
         <rect x="968" y="318" width="72" height="56" rx="10" fill="#E3F2FD" stroke="#42A5F5" stroke-width="2"/>
         <text x="1004" y="344" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="600" fill="#0D2B5E">🔵</text>
         <text x="1004" y="362" text-anchor="middle" font-family="'Sora',sans-serif" font-size="11" font-weight="600" fill="#1565C0">Mai</text>
@@ -329,22 +350,22 @@ h1 { font-size: 30px; font-weight: 600; color: var(--text-primary); line-height:
       <div class="tool-bubble gpt" id="b-gpt">
         <div class="tool-icon">🟢</div>
         <div class="tool-name gpt">ChatGPT</div>
-        <div class="tool-tag">Public · internet · one-off</div>
+        <div class="tool-tag">Public · paid · one-off</div>
       </div>
       <div class="tool-bubble claude" id="b-claude">
         <div class="tool-icon">🧡</div>
         <div class="tool-name claude">Claude</div>
-        <div class="tool-tag">Public · internet · repeated</div>
+        <div class="tool-tag">Public · paid · repeated</div>
       </div>
       <div class="tool-bubble mai" id="b-mai">
         <div class="tool-icon">🔵</div>
         <div class="tool-name mai">Mai</div>
-        <div class="tool-tag">Private · internal docs</div>
+        <div class="tool-tag">Confidential · internal docs</div>
       </div>
       <div class="tool-bubble gemini" id="b-gemini">
         <div class="tool-icon">🔴</div>
-        <div class="tool-name gemini">Gemini deep research</div>
-        <div class="tool-tag">Private · internet · one-off</div>
+        <div class="tool-name gemini">Gemini</div>
+        <div class="tool-tag">Public (free) or Confidential · internet</div>
       </div>
       <div class="tool-bubble notebooklm" id="b-notebooklm">
         <div class="tool-icon">📓</div>
@@ -405,19 +426,27 @@ const TOOLS = {
 // { type:'r', tool, reason, also }
 const TREE = {
   root: {
-    type:'q', text:'Is your data public or private?',
-    sub: 'Public data is anything you\'d share openly. Private / internal means org data, client info, or anything sensitive.',
+    type:'q', text:'Is your data Public or Confidential?',
+    sub: 'Public data is anything you\'d share openly. Confidential / Official Use Only means org data, client info, or anything sensitive.',
     opts:[
       { label:'🌍  Public data', next:'pub_internet' },
-      { label:'🔒  Private / internal data', next:'priv_internet' },
+      { label:'🔒  Confidential and Official Use Only', next:'priv_internet' },
     ]
   },
   pub_internet: {
     type:'q', text:'Do you want internet access?',
     sub:'i.e. do you want the tool to search live web sources as part of its answer?',
     opts:[
-      { label:'Yes — search the live web', next:'pub_yes_repeated' },
+      { label:'Yes — search the live web', next:'pub_paid' },
       { label:'No — just use what I give it', next:'r_notebooklm_pub' },
+    ]
+  },
+  pub_paid: {
+    type:'q', text:'Do you have a paid Claude or ChatGPT subscription?',
+    sub:'Free-tier accounts are more limited. If you have a paid Claude or ChatGPT Plus account, those are the stronger options for public tasks.',
+    opts:[
+      { label:'Yes — I have a paid subscription', next:'pub_yes_repeated' },
+      { label:'No — free account or no account', next:'r_gemini_free' },
     ]
   },
   pub_yes_repeated: {
@@ -430,7 +459,7 @@ const TREE = {
   },
   priv_internet: {
     type:'q', text:'Do you want internet access?',
-    sub:'i.e. do you want the tool to search live web sources alongside your internal data?',
+    sub:'i.e. do you want the tool to search live web sources alongside your confidential data?',
     opts:[
       { label:'Yes — search the live web too', next:'priv_yes_repeated' },
       { label:'No — internal data only', next:'priv_no_docs' },
@@ -462,14 +491,19 @@ const TREE = {
     reason:'For repeated public workflows, Claude is the pick. Its Skills feature lets you save prompt templates and automate recurring tasks so you\'re not starting from scratch every time.',
     also:'Also works: ChatGPT for one-off variations'
   },
+  r_gemini_free: {
+    type:'r', tool:'gemini',
+    reason:'Without a paid Claude or ChatGPT account, Gemini is your best option for public tasks with web access. It has a capable free tier and handles research and synthesis well.',
+    also:'Also works: ChatGPT free tier for basic tasks'
+  },
   r_mai_repeated: {
     type:'r', tool:'mai',
-    reason:'For repeated internal workflows, Mai is your tool. It has Skills support and can access internal bank documents directly — so you can automate recurring tasks without sharing data externally.',
+    reason:'For repeated confidential workflows, Mai is your tool. It has Skills support and can access internal bank documents directly — so you can automate recurring tasks without sharing data externally.',
     also:''
   },
   r_gemini: {
     type:'r', tool:'gemini',
-    reason:'For a one-off private task where you also want web access, Gemini deep research can work across your downloaded files and the live web — keeping your data within the Google ecosystem.',
+    reason:'For a one-off confidential task where you also want web access, Gemini deep research can work across your downloaded files and the live web — keeping your data within the Google ecosystem.',
     also:'Also: Mai if you need it to retrieve internal docs'
   },
   r_notebooklm: {
@@ -494,7 +528,7 @@ let current = 'root';
 
 function quizRender() {
   const node = TREE[current];
-  const totalQs = 3; // max depth
+  const totalQs = 4; // max depth
   const depth = history.length;
 
   // Progress pips
