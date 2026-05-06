@@ -27,8 +27,6 @@
 
   .page-header { background:white; border-bottom:1px solid var(--gray-200); padding:1.1rem 2rem; display:flex; align-items:center; gap:14px; position:sticky; top:0; z-index:100; }
   .header-title { font-size:14px; font-weight:500; color:var(--gray-800); }
-  .survey-btn { font-family:var(--font); font-size:13px; font-weight:500; padding:6px 14px; border-radius:6px; border:1.5px solid var(--blue-200); background:var(--blue-50); color:var(--blue-800); text-decoration:none; white-space:nowrap; transition:all 0.15s; flex-shrink:0; }
-  .survey-btn:hover { background:var(--blue-100); border-color:var(--blue-400); }
 
   .main { max-width:740px; margin:0 auto; padding:2.5rem 1.5rem 5rem; }
 
@@ -172,8 +170,6 @@
     <button class="header-tab active" id="tab-ai-tool" onclick="showMainPanel('ai-tool', this)">AI Tool Picker</button>
     <button class="header-tab" id="tab-worksheet" onclick="showMainPanel('worksheet', this)">Worksheet</button>
   </nav>
-  <a href="https://www.menti.com/al85dk3q3yv7" target="_blank" class="survey-btn">Pre-workshop survey</a>
-  <a href="https://www.menti.com/alx3smtynqs8" target="_blank" class="survey-btn">Post-workshop survey</a>
 </header>
 
 <div id="panel-ai-tool" class="active">
@@ -219,7 +215,7 @@
   <div class="step" id="step2">
     <div class="step-header" onclick="toggleStep(2)">
       <div class="step-num todo" id="num2">2</div>
-      <div class="step-title" id="title2">Let Mai ask you 3 questions first</div>
+      <div class="step-title" id="title2">Let Mai ask you 5 questions first</div>
       <span class="step-tag tag-explore">Explore</span>
       <svg class="chevron" id="chev2" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,6 8,10 12,6"/></svg>
     </div>
