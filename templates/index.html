@@ -145,7 +145,7 @@
   .skill-copy-btn.copied { background:var(--green-50); color:var(--green-800); border-color:var(--green-100); }
 
   .better-prompt-wrap { border:1.5px solid var(--purple-100); border-radius:var(--r-md); margin-bottom:0.75rem; overflow:hidden; }
-  .better-prompt-header { background:var(--purple-50); padding:0.75rem 1.1rem; display:flex; align-items:center; justify-content:space-between; }
+  .better-prompt-header { background:var(--purple-50); padding:0.75rem 1.1rem; display:flex; flex-direction:column; gap:4px; }
   .better-prompt-label { font-size:13px; font-weight:500; color:var(--purple-800); }
   .better-prompt-hint { font-size:11px; color:var(--purple-800); opacity:0.65; }
   .better-prompt-body { padding:1rem 1.1rem; background:white; border-top:1px solid var(--purple-100); }
@@ -187,20 +187,19 @@
   <div class="step is-active" id="step1">
     <div class="step-header" onclick="toggleStep(1)">
       <div class="step-num active" id="num1">1</div>
-      <div class="step-title" id="title1">Try the raw prompt</div>
+      <div class="step-title" id="title1">Simple Prompt</div>
       <span class="step-tag tag-observe">Observe</span>
       <svg class="chevron open" id="chev1" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,6 8,10 12,6"/></svg>
     </div>
     <div class="step-body open" id="body1">
-        <p class="instruction">Open Mai and paste this prompt exactly as written. Don't improve it — the point is to see what a rough, unrefined prompt produces.</p>
+        <p class="instruction">Here is an example of a simple prompt. It defines the task but doesn't give many specifics.</p>
         <div class="prompt-display">
           <span id="raw1">Give a summary of recent fcv risks from last 3 months in Yemen and potential impacts of those risks to water projects in the portfolio</span>
           <button class="copy-btn" onclick="copyById('raw1',this)">Copy</button>
         </div>
-        <p class="instruction">Look at what Mai gives back. Notice what's missing or unhelpful.</p>
+        <p class="instruction">What do you think could be improved in this prompt?</p>
         <p class="section-label">What do you notice? Check all that apply</p>
         <ul class="check-list">
-          <li onclick="toggleCheck(this)"><div class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none" stroke="white" stroke-width="2"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg></div>Results are vague or hard to verify</li>
           <li onclick="toggleCheck(this)"><div class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none" stroke="white" stroke-width="2"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg></div>"Recent" is undefined — which time period?</li>
           <li onclick="toggleCheck(this)"><div class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none" stroke="white" stroke-width="2"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg></div>No sources specified — could be anything</li>
           <li onclick="toggleCheck(this)"><div class="cb-box"><svg class="cb-check" viewBox="0 0 10 10" fill="none" stroke="white" stroke-width="2"><polyline points="1.5,5 4,7.5 8.5,2.5"/></svg></div>The topic isn't clearly defined</li>
@@ -215,19 +214,19 @@
   <div class="step" id="step2">
     <div class="step-header" onclick="toggleStep(2)">
       <div class="step-num todo" id="num2">2</div>
-      <div class="step-title" id="title2">Let Mai ask you 5 questions first</div>
+      <div class="step-title" id="title2">Let mAI ask you questions to improve the prompt</div>
       <span class="step-tag tag-explore">Explore</span>
       <svg class="chevron" id="chev2" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,6 8,10 12,6"/></svg>
     </div>
     <div class="step-body" id="body2">
-        <p class="instruction">Instead of answering straight away, have Mai ask you 5 clarifying questions first. Your answers will let it give a much more targeted response. Paste this into a fresh Mai conversation:</p>
+        <p class="instruction">Before trying to write a better prompt yourself, ask mAI to do it — by having it ask you questions that expose what's missing. Paste this into a fresh mAI conversation:</p>
         <div class="prompt-display">
-          <span id="raw2">Here is my request: Give a summary of recent fcv risks from last 3 months in Yemen and potential impacts of those risks to water projects in the portfolio.<br><br>Before you answer, ask me 5 clarifying questions that would help you give a more useful and accurate response.</span>
+          <span id="raw2">Here is my prompt: Give a summary of recent fcv risks from last 3 months in Yemen and potential impacts of those risks to water projects in the portfolio.<br><br>Ask me 5 questions to help improve this prompt.</span>
           <button class="copy-btn" onclick="copyById('raw2',this)">Copy</button>
         </div>
         <div class="tip">
           <div class="tip-icon">&#9432;</div>
-          <div class="tip-text"><strong>What to watch for:</strong> Mai might ask who the audience is, what level of detail you need, which specific projects matter most, or what you plan to do with the output. Answer all 3, then let it run — notice how the response differs from step 1.</div>
+          <div class="tip-text"><strong>Bonus:</strong> You can also skip the prompt-writing step entirely and have mAI ask questions to improve the <em>output</em> directly — just swap the last line for: <em>"Before you answer, ask me 3–5 clarifying questions that would help you give a more useful and accurate response."</em></div>
         </div>
         <button class="done-btn" onclick="completedStep(2,3)">Mark complete &rarr;</button>
     </div>
@@ -242,14 +241,11 @@
       <svg class="chevron" id="chev3" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,6 8,10 12,6"/></svg>
     </div>
     <div class="step-body" id="body3">
-        <p class="instruction">Open a new Mai conversation, copy the prompt below, and paste it in. Compare what you get back to step 1.</p>
+        <p class="instruction">Open a new mAI conversation, copy the prompt below, and paste it in. Compare what you get back to step 1.</p>
         <div class="better-prompt-wrap">
           <div class="better-prompt-header">
-            <div>
-              <div class="better-prompt-label">Refined prompt</div>
-              <div class="better-prompt-hint">Copy and paste into a new Mai conversation</div>
-            </div>
-            <button class="skill-copy-btn" onclick="copyById('raw3',this)">Copy</button>
+            <div class="better-prompt-label">Refined prompt</div>
+            <div class="better-prompt-hint">We developed this by iteratively refining the prompt with mAI—having it ask clarifying questions, testing the prompts in practice, identifying gaps in the output, and then improving them in a continuous feedback loop until the results reached a higher level of quality. </div>
           </div>
           <div class="better-prompt-body">
           <pre id="raw3" class="better-prompt-pre"># FCV Risk Country-Sector Briefing Generator
@@ -270,21 +266,26 @@ If either is missing, ask for both in a single message using the ask_questions t
 
 ## Step 2: Research
 
-Run internal and external searches in parallel where possible.
+Complete external research first, then use those findings to focus internal document searches.
 
-**Internal sources first:**
+**External sources first:**
 
-1. Search the **WB Internal Knowledge base** for: `[country] FCV fragility conflict risk [sector]` — to find CPFs, CLRs, ABPEs, PADs, ICRs, IEG reports, and other operational documents referencing FCV conditions.
-2. Search **Projects** for: `[country] [sector] active portfolio` — to identify active lending operations, retrieve project objectives from PADs, and check ISRs and Aide Memoires for flagged implementation issues. Also look for Restructuring Documents that may indicate prior FCV-related project adjustments.
-
-**External sources second:**
-
-3. Use **web search** following this source preference order. Prefer higher-ranked sources; use lower-ranked ones only when higher-ranked sources are unavailable or insufficient. Also search for sector-specific conditions as relevant (WASH, IPC food security, Education Cluster, Health Cluster).
+1. Use **web search** to build a current FCV picture for the country and sector. Follow this source preference order — prefer higher-ranked sources; use lower-ranked ones only when higher-ranked sources are unavailable or insufficient. Also search for sector-specific conditions as relevant (WASH, IPC food security, Education Cluster, Health Cluster).
 
    1. **ICG / CrisisWatch** — International Crisis Group conflict analysis and monthly risk ratings
    2. **Multilateral or UN sources** — OCHA, UNHCR, WFP, UNICEF, OHCHR, World Bank, UNDP, IOM DTM, IDMC
    3. **Reputable national or regional outlets** from the country — for ground-level reporting and local context
    4. **Reputable international wires or broadcasters** — Reuters, AP, BBC, Al Jazeera, VOA
+
+   From this step, identify: the most active conflict zones or insecurity hotspots, displacement patterns, access constraints, and any sector-specific humanitarian triggers. These findings will drive the risk lens applied to internal portfolio documents in the next step.
+
+**Internal sources second:**
+
+2. Search the **WB Internal Knowledge base** for: `[country] FCV fragility conflict risk [sector]` — to find CPFs, CLRs, ABPEs, PADs, ICRs, IEG reports, and other operational documents. Use the geographic hotspots and risk themes identified in Step 2.1 to focus your review — e.g. if web research surfaces access constraints in a specific region, check whether project implementation sites overlap with that area.
+
+3. Search **Projects** for: `[country] [sector] active portfolio` — to identify active lending operations. For each project found, retrieve objectives from PADs and check ISRs, Aide Memoires, and Restructuring Documents for flagged implementation issues. Assess each project's exposure against the specific risks already identified from external sources — do not conduct a generic risk review.
+
+**Citation requirement:** Every factual claim, statistic, or situation update in the briefing must be accompanied by a hyperlinked citation. Format citations as: [Source Name, Month Year](URL). If a URL is not available for an internal WB document, include the document name and date without a hyperlink. Place each citation immediately after the claim it supports — do not cluster citations at the end. If a source was consulted but no usable URL exists, note: *[Document name, Date — URL not available]*.
 
 Note any source gaps explicitly in the output.
 
@@ -292,22 +293,22 @@ Note any source gaps explicitly in the output.
 
 ## Step 3: Produce the Briefing
 
-Output the briefing in exactly four sections below. Target **650–850 words** total (excluding headers). Use bullet points throughout; avoid prose paragraphs.
+Output the briefing in exactly four sections below. Target **650–850 words** total (excluding headers and citations). Use bullet points throughout; avoid prose paragraphs.
 
 At the top of the briefing, include a one-line header:
 
 > **FCV Risk Briefing | [Country] — [Sector] Sector | [Month Year]**
 
-If any finding warrants immediate task team attention, add a bold **⚠ Escalation Flag** line immediately below the header before Section 1.
+If any finding warrants immediate task team attention, add a bold **⚠ Escalation Flag** line immediately below the header before Section 1, with a one-sentence summary of the issue and a citation.
 
 ---
 
 ### Section 1 — FCV Risk Summary (Last 3 Months)
 
-Provide **4–6 bullets** on the most significant FCV developments. Each bullet must include:
+Provide **4–6 bullets** on the most significant FCV developments, drawn from external sources gathered above. Each bullet must include:
 - **What** happened (1–2 sentences)
 - **Where** (region or sub-national area if available; national if not)
-- **Source + approximate date** (e.g. *OCHA Situation Report, Apr 2025*)
+- **Hyperlinked citation** inline, immediately after the relevant claim: [Source Name, Month Year](URL)
 
 If a specific source is unavailable, note: *[Source not located — based on [alternative or general context]]*
 
@@ -317,17 +318,17 @@ Cover at minimum: armed conflict or security incidents, displacement trends, gov
 
 ### Section 2 — Portfolio Exposure Analysis
 
-Draw on PADs (Project Appraisal Documents) for project objectives, ISRs (Implementation Status and Results Reports) for current implementation status, Aide Memoires for recent supervision findings, and Restructuring Documents for any prior FCV-related adjustments. Reference IEG Reports and ICRs (Implementation Completion and Results Reports) for lessons from closed operations where relevant. For country-level strategic context, reference the CPF (Country Partnership Framework), CLR (Completion and Learning Review), and ABPE (Annual Bank Portfolio Exercise) where available.
+Using the risks identified in Section 1 as your analytical frame, assess each active World Bank project in the specified sector and country. Draw on PADs for project objectives, ISRs and Aide Memoires for current implementation status, and Restructuring Documents for prior FCV-related adjustments. Reference IEG Reports and ICRs for lessons from closed operations where relevant. For country-level strategic context, reference the CPF, CLR, and ABPE where available.
 
-For each active World Bank project in the specified sector and country, provide:
+For each project, provide:
 
-**[Project Name] — [Project ID]**
-- *Objective:* One sentence (from PAD)
-- *Current status:* One sentence (from most recent ISR or Aide Memoire)
-- *FCV risks to implementation:* Bullet the specific risks (e.g. site access, contractor safety, supply chain disruption, community tensions, staff security, counterpart capacity)
+**[Project Name] — [Project ID]** *(link Project ID to: https://projects.worldbank.org/en/projects-operations/project-detail/[Project ID])*
+- *Objective:* One sentence (from PAD) — [PAD title, Date](URL or *URL not available*)
+- *Current status:* One sentence (from most recent ISR or Aide Memoire) — [ISR/Aide Memoire, Date](URL or *URL not available*)
+- *FCV risks to implementation:* Bullet each specific risk, tied explicitly to a finding from Section 1 where possible (e.g. "Site access in [Region] threatened by armed group activity — [OCHA, Apr 2025](URL)"). Cover: site access, contractor safety, supply chain disruption, community tensions, staff security, counterpart capacity.
 - *Overall risk level:* **Low / Medium / High** *(with one-sentence rationale)*
 
-If no specific project is identified through internal search, note this explicitly and describe the likely risk profile for a typical project of that type in the country context.
+If no specific project is identified through internal search, note this explicitly and describe the likely risk profile for a typical project of that type given the Section 1 findings.
 
 ---
 
@@ -335,7 +336,7 @@ If no specific project is identified through internal search, note this explicit
 
 Describe **3–5 concrete impacts** the identified risks could have on project delivery, disbursement, or outcomes. For each:
 - Name the impact (bold)
-- Link it explicitly to a risk from Section 1 (e.g. *"Linked to: armed incidents in northern [Region]"*)
+- Link it explicitly to a specific risk from Section 1, with an inline citation (e.g. *"Linked to: armed incidents in northern [Region] — [OCHA, Apr 2025](URL)"*)
 - Specify which project or project type is affected
 
 Examples of impact types: implementation delays, cost escalation, contractor withdrawal, supervision gaps, community engagement breakdown, disbursement slowdown, fiduciary risk.
@@ -347,18 +348,28 @@ Examples of impact types: implementation delays, cost escalation, contractor wit
 Suggest **2–3 specific, practical actions** the task team could take within the next 30–60 days. Each action should:
 - Be actionable (not generic advice)
 - Name the responsible party where possible (e.g. task team leader, security focal point, government counterpart)
-- Reference the specific risk it addresses
+- Reference the specific risk it addresses, with a supporting citation where available
+- Include a suggested timeline (e.g. *"within 2 weeks"*, *"before next ISR"*)
 
 Examples: trigger the project's contingency plan, request a security assessment from the WBG Security Unit, convene a virtual supervision mission, engage the relevant UN cluster, adjust implementation modality to remote supervision, document force majeure conditions, flag in the next ISR update, or initiate a Restructuring if scope adjustments are needed.
 
 ---
 
-**Do not fabricate sources or project details.** If data is unavailable for a specific area or time period, state this clearly: *"No recent [source type] located for [area/period]."* If a project document is not retrievable through mAI's internal search, note this rather than inferring content.</pre>
+**Do not fabricate sources, URLs, or project details.** If a URL cannot be verified, do not invent one — write *URL not available* instead. If data is unavailable for a specific area or time period, state this clearly: *"No recent [source type] located for [area/period]."* If a project document is not retrievable through mAI's internal search, note this rather than inferring content.</pre>
+            <button class="skill-copy-btn" onclick="copyById('raw3',this)" style="margin-top:8px;">Copy prompt</button>
           </div>
         </div>
         <div class="tip">
           <div class="tip-icon">&#9432;</div>
-          <div class="tip-text"><strong>What changed:</strong> exact WBG documents are mentioned, sources are ranked by credibility, the output has 4 structured sections, and each impact is explicitly linked to a risk, etc.</div>
+          <div class="tip-text"><strong>What makes this better than the original:</strong>
+            <ul style="margin-top:6px;padding-left:1.1rem;display:flex;flex-direction:column;gap:4px;">
+              <li>Designates which sources to use for the web search — and ranks them by credibility</li>
+              <li>Sets the exact portfolio documents to draw from (PADs, ISRs, CPFs, Aide Memoires)</li>
+              <li>Splits the task into clearly defined steps so mAI doesn't conflate research and writing</li>
+              <li>Specifies the writer, the audience, and the output format — so the result is always consistent</li>
+              <li>Tells the AI what to do if it does not find any project impacted</li>
+            </ul>
+          </div>
         </div>
         <button class="done-btn" onclick="completedStep(3,4)">Mark complete &rarr;</button>
     </div>
@@ -373,16 +384,16 @@ Examples: trigger the project's contingency plan, request a security assessment 
       <svg class="chevron" id="chev4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,6 8,10 12,6"/></svg>
     </div>
     <div class="step-body" id="body4">
-        <p class="instruction">You can save the prompt from step 3 as a Mai skill so you never have to paste it again. In the same Mai conversation from step 3, paste this:</p>
+        <p class="instruction">You can save the prompt from step 3 as a mAI skill so you never have to paste it again. In the same mAI conversation from step 3, paste this:</p>
 
         <div class="prompt-display">
-          <span id="raw4">Save this as a Mai skill called "country-sector-fcv-risk-briefing". I want to be able to trigger it by typing "run country-sector-fcv-risk-briefing for [country] [sector]" in any new conversation.</span>
+          <span id="raw4">Save this as a mAI skill called "country-sector-fcv-risk-briefing". I want to be able to trigger it by typing "run country-sector-fcv-risk-briefing for [country] [sector]" in any new conversation.</span>
           <button class="copy-btn" onclick="copyById('raw4',this)">Copy</button>
         </div>
 
         <div class="tip">
           <div class="tip-icon">&#9432;</div>
-          <div class="tip-text"><strong>Using it later:</strong> open any new Mai conversation and type <strong>"run country-sector-fcv-risk-briefing for Somalia education"</strong> or any other country and sector — Mai will run the full structured briefing automatically. You can reuse it as many times as you like.</div>
+          <div class="tip-text"><strong>Using it later:</strong> open any new mAI conversation and type <strong>"run country-sector-fcv-risk-briefing for Somalia education"</strong> or any other country and sector — mAI will run the full structured briefing automatically. You can reuse it as many times as you like.</div>
         </div>
 
         <div class="compare-box">
